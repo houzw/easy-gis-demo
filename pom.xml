@@ -1,132 +1,287 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.egc</groupId>
-  <artifactId>gis</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <modules>
-    <module>gis-raster</module>
-    <module>gis-vector</module>
-    <module>gis-db</module>
-  </modules>
-  <packaging>pom</packaging>
+    <groupId>org.egc</groupId>
+    <artifactId>gis</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>gis-raster</module>
+        <module>gis-vector</module>
+        <module>gis-db</module>
+        <module>gis-gdal</module>
+        <module>gis-ows</module>
+    </modules>
+    <packaging>pom</packaging>
 
-  <name>gis</name>
-  <url>http://maven.apache.org</url>
+    <name>gis</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <gdal.version>2.1.0</gdal.version>
-    <postgis-jdbc.version>2.2.1</postgis-jdbc.version>
-    <psql.java8.version>9.4.1211</psql.java8.version>
-    <geolatte.version>0.14</geolatte.version>
-    <geotools.version>17.1</geotools.version>
+        <gdal.version>2.1.0</gdal.version>
+        <postgis-jdbc.version>2.2.1</postgis-jdbc.version>
+        <psql.java8.version>9.4.1211</psql.java8.version>
+        <geolatte.version>0.14</geolatte.version>
+        <!--<geotools.version>19.0</geotools.version>-->
+        <geotools.version>17.1</geotools.version>
+        <geotools-wfs.version>16.5</geotools-wfs.version>
 
-    <guava.version>19.0</guava.version>
-    <commons-lang3.version>3.5</commons-lang3.version>
-    <commons-io.version>2.5</commons-io.version>
-    <lombok.version>1.16.16</lombok.version>
-    <slf4j.version>1.7.21</slf4j.version>
-    <log4j.version>1.2.17</log4j.version>
-    <log4j-slf4j.version>1.7.21</log4j-slf4j.version>
+        <guava.version>19.0</guava.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <commons-io.version>2.5</commons-io.version>
+        <lombok.version>1.16.16</lombok.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+        <log4j-slf4j.version>1.7.21</log4j-slf4j.version>
 
-  </properties>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.12</version>
-      <scope>test</scope>
-    </dependency>
-    <!--slf4j-->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
-    </dependency>
-    <!-- log4j12 -->
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${log4j.version}</version>
-    </dependency>
-    <!-- slf4j-log4j12 -->
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>${log4j-slf4j.version}</version>
-    </dependency>
-    <!--google通用类库-->
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
-    </dependency>
-    <!-- 帮助开发人员消除Java的冗长代码 -->
-    <dependency>
-      <groupId>org.projectlombok</groupId>
-      <artifactId>lombok</artifactId>
-      <version>${lombok.version}</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.gdal</groupId>
-      <artifactId>gdal</artifactId>
-      <version>${gdal.version}</version>
-    </dependency>
-  </dependencies>
-  <dependencyManagement>
     <dependencies>
-      <!--A geometry model that conforms to the OGC Simple Features for SQL specification.-->
-      <dependency>
-        <groupId>org.geolatte</groupId>
-        <artifactId>geolatte-geom</artifactId>
-        <version>${geolatte.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>net.postgis</groupId>
-        <artifactId>postgis-jdbc</artifactId>
-        <version>${postgis-jdbc.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-geojson</artifactId>
-        <version>${geotools.version}</version>
-      </dependency>
-      <!--  ESRI shapefile format. NG version -->
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-shapefile</artifactId>
-        <version>${geotools.version}</version>
-      </dependency>
-      <!-- contains the default implementations of the data model that are used by other GeoTools modules. -->
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-main</artifactId>
-        <version>${geotools.version}</version>
-      </dependency>
-      <!-- Coordinate Reference Systems (CRS), conversion and transformation services -->
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-referencing</artifactId>
-        <version>${geotools.version}</version>
-      </dependency>
-      <!-- implementations of metadata and some core utilities classes. -->
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-metadata</artifactId>
-        <version>${geotools.version}</version>
-      </dependency>
-      <!-- https://mvnrepository.com/artifact/org.geotools/gt-geojson -->
-      <dependency>
-        <groupId>org.geotools</groupId>
-        <artifactId>gt-geojson</artifactId>
-        <version>${geotools.version}</version>
-      </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <!--slf4j-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- log4j12 -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!-- slf4j-log4j12 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${log4j-slf4j.version}</version>
+        </dependency>
+        <!--google通用类库-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+        <!-- 帮助开发人员消除Java的冗长代码 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--使用gdal时，还需要指定相应的dll才能使用-->
+        <!-- <dependency>
+             <groupId>org.gdal</groupId>
+             <artifactId>gdal</artifactId>
+             <version>${gdal.version}</version>
+         </dependency>-->
 
+        <dependency>
+            <groupId>org.egc</groupId>
+            <artifactId>commons</artifactId>
+            <version>2.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-  </dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <!--A geometry model that conforms to the OGC Simple Features for SQL specification.-->
+            <dependency>
+                <groupId>org.geolatte</groupId>
+                <artifactId>geolatte-geom</artifactId>
+                <version>${geolatte.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.postgis</groupId>
+                <artifactId>postgis-jdbc</artifactId>
+                <version>${postgis-jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools.jdbc</groupId>
+                <artifactId>gt-jdbc-postgis</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-geojson</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!--  ESRI shapefile format. NG version -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-shapefile</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-swing</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!-- contains the default implementations of the data model that are used by other GeoTools modules. -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-main</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-opengis</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!-- Coordinate Reference Systems (CRS), conversion and transformation services -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-referencing</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!-- implementations of metadata and some core utilities classes. -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-metadata</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-geojson</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!-- Implementation of GridCoverage. Provides support for rasters and some image processing like reprojection. -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-coverage</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!-- Datasource created to read GeoTIFF raster format. -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-geotiff</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!--
+            Connection to an embedded EPSG database in HSQL format.
+            This database is built from the SQL scripts delivered by EPSG.
+            -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-epsg-hsql</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-epsg-wkt</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!--
+            Implementation of DataStore allowing geotools code to work with an OGC Web Feature Service.
+            Offers client code for WFS 1.0 and WFS 1.1.
+            -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-wfs</artifactId>
+                <version>${geotools-wfs.version}</version>
+            </dependency>
+            <!--An API for creating custom processes/operations plus a collection of pre-written processes including vector/raster conversion-->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-process</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!--
+            An OGC Web Map Server client implementation that can be used directly or as through the GridCoverageExchange API.
+            Direct usage is recommended, as the GridCoverageExchange access for WMS is not well tested and is complicated to use.
+            It supports WMS versions 1.0.0, 1.1.0, 1.1.1, and 1.3.0.
+            -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-wms</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <!--
+                使用与dll文件一致的， gisinternals 提供的jar文件。使用nexus管理
+                dll文件通过配置系统环境变量解决：C:\Program Files\GDAL
+            -->
+            <dependency>
+                <groupId>org.gdal</groupId>
+                <artifactId>gdal</artifactId>
+                <version>${gdal.version}</version>
+                <classifier>gisinternals</classifier>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <includeScope>runtime</includeScope>
+                                <includeTypes>dll</includeTypes>
+                                <excludeTransitive>true</excludeTransitive>
+                                <!--<includeArtifactIds>jacob</includeArtifactIds>-->
+                                <!--<failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact>-->
+                                <!--<silent>false</silent>-->
+                                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                                <!--<overWriteReleases>true</overWriteReleases>-->
+                                <!--<overWriteSnapshots>true</overWriteSnapshots>-->
+                                <!--<overWriteIfNewer>true</overWriteIfNewer>-->
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!--https://github.com/fmarot/nativedependencies-maven-->
+                <plugin>
+                    <groupId>com.teamtter.mavennatives</groupId>
+                    <artifactId>nativedependencies-maven-plugin</artifactId>
+                    <version>1.0.1</version>
+                    <executions>
+                        <execution>
+                            <id>unpacknatives</id>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>copy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <skip>false</skip>
+                        <autoDetectOSNatives>true</autoDetectOSNatives>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

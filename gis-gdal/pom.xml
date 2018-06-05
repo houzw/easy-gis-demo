@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>gis-vector</artifactId>
+    <artifactId>gis-gdal</artifactId>
     <packaging>jar</packaging>
 
-    <name>gis-vector</name>
+    <name>gis-gdal</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -19,12 +19,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-swing</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.geotools</groupId>
-            <artifactId>gt-shapefile</artifactId>
+            <groupId>org.gdal</groupId>
+            <artifactId>gdal</artifactId>
+            <classifier>gisinternals</classifier>
         </dependency>
     </dependencies>
 </project>
