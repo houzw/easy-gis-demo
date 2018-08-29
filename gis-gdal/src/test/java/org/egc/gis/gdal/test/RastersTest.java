@@ -23,5 +23,6 @@ public class RastersTest {
         System.out.println("y " + ds.GetRasterYSize());
         System.out.println("proj " + ds.GetProjection());
         ds.GetGeoTransform();
+        ds.delete();
     }
 }

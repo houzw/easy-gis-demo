@@ -21,9 +21,9 @@ public class RasterTest {
         GeoTiffService tiffService = new GeoTiffServiceImpl();
         GridCoverage2D coverage2D = tiffService.read(tif);
         System.out.println(coverage2D.getCoordinateReferenceSystem().getName().getCode());//WGS 84
-        System.out.println(coverage2D.getCoordinateReferenceSystem().getIdentifiers());//WGS 84
+        System.out.println(coverage2D.getCoordinateReferenceSystem().getIdentifiers());//[EPSG:4326]
+        System.out.println(coverage2D.getCoordinateReferenceSystem().getName());//EPSG:WGS 84
         System.out.println(coverage2D.getName());//01_DEM
-        System.out.println("coverage2D.getCoordinateReferenceSystem2D().toWKT()");
         System.out.println(coverage2D.getCoordinateReferenceSystem2D().toWKT());
 
         System.out.println("coverage2D.getCoordinateReferenceSystem().getCoordinateSystem().getAxis(0)");
@@ -41,11 +41,16 @@ public class RasterTest {
         System.out.println("coverage2D.getGridGeometry()");
         System.out.println(coverage2D.getGridGeometry().gridDimensionX);//0
         System.out.println(coverage2D.getGridGeometry().gridDimensionY);//1
-        System.out.println("coverage2D.getEnvelope2D()");//-69.883617868633
+        System.out.println("coverage2D.getEnvelope2D()");
         System.out.println(coverage2D.getEnvelope2D().x);//-69.883617868633
         System.out.println(coverage2D.getEnvelope2D().y);//46.304238737160006
         System.out.println(coverage2D.getEnvelope2D().width);//1.056666666666672
         System.out.println(coverage2D.getEnvelope2D().height);//0.8741666666666674
+        System.out.println(coverage2D.getEnvelope2D().getMaxX());//-68.82695120196632
+        System.out.println(coverage2D.getEnvelope2D().getMaxY());//47.17840540382667
+        System.out.println(coverage2D.getEnvelope2D().getHeight());//0.8741666666666674
+        System.out.println(coverage2D.getEnvelope2D().getUpperCorner());//DirectPosition2D[-68.82695120196632, 47.17840540382667]
+        System.out.println(coverage2D.getEnvelope2D().getLowerCorner());//DirectPosition2D[-69.883617868633, 46.304238737160006]
     }
 
 
