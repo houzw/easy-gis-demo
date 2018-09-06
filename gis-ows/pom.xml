@@ -23,6 +23,25 @@
     </properties>
 
     <dependencies>
+        <!--操作 GeoServer REST API 的库-->
+        <dependency>
+            <groupId>it.geosolutions</groupId>
+            <artifactId>geoserver-manager</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/edu.umn.gis/mapscript -->
+        <!--MapServer mapscript-->
+        <!-- released at 2013. located at 52north repository (http://52north.org/maven/repo/releases/)-->
+        <dependency>
+            <groupId>edu.umn.gis</groupId>
+            <artifactId>mapscript</artifactId>
+            <version>6.0.3</version>
+        </dependency>
 
     </dependencies>
 

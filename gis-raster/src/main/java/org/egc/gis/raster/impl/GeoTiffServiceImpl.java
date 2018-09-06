@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -32,7 +33,7 @@ public class GeoTiffServiceImpl implements GeoTiffService {
     public GridCoverage2D read(String tif) throws IOException {
 
         File rasterFile = new File(tif);
-        GridCoverage2DReader reader = new GeoTiffReader(rasterFile);
+        GridCoverage2DReader reader = new GeoTiffReader(new FileInputStream(rasterFile));
 
         ParameterValue<OverviewPolicy> policy = AbstractGridFormat.OVERVIEW_POLICY.createValue();
         policy.setValue(OverviewPolicy.IGNORE);

@@ -8,22 +8,25 @@ package org.egc.gis.raster.dto;
  */
 public class RasterMetadata {
 
+
     private String rasterName;
     /**
      * Coordinate Reference System Identify
      */
     private String crs;
+    private String projStr;
     private String crsWkt;
     private String crsCode;
-    private float nodata;
+    private double nodata;
     private String format;
+    private String maxValue;
+    private String minValue;
     private double upperLeft;
     private double upperRight;
     private double lowerLeft;
     private double lowerRight;
     private double center;
     private double pixelSize;
-
 
     public String getRasterName() {
         return rasterName;
@@ -57,11 +60,11 @@ public class RasterMetadata {
         this.crsCode = crsCode;
     }
 
-    public float getNodata() {
+    public double getNodata() {
         return nodata;
     }
 
-    public void setNodata(float nodata) {
+    public void setNodata(double nodata) {
         this.nodata = nodata;
     }
 
