@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.egc</groupId>
-    <artifactId>gis</artifactId>
+    <artifactId>gis-demo</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>gis-raster</module>
@@ -11,6 +11,9 @@
         <module>gis-db</module>
         <module>gis-gdal</module>
         <module>gis-ows</module>
+        <module>gis-commons</module>
+        <module>gis-taudem</module>
+        <module>gis-crs</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -19,7 +22,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <gdal.version>2.1.0</gdal.version>
         <postgis-jdbc.version>2.2.1</postgis-jdbc.version>
         <psql.java8.version>9.4.1211</psql.java8.version>
@@ -77,18 +81,6 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <!--使用gdal时，还需要指定相应的dll才能使用-->
-        <!-- <dependency>
-             <groupId>org.gdal</groupId>
-             <artifactId>gdal</artifactId>
-             <version>${gdal.version}</version>
-         </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.osgeo/proj4j -->
-        <dependency>
-            <groupId>org.osgeo</groupId>
-            <artifactId>proj4j</artifactId>
-            <version>0.1.0</version>
-        </dependency>
 
         <dependency>
             <groupId>org.egc</groupId>
@@ -98,6 +90,12 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
+            <!-- https://mvnrepository.com/artifact/org.osgeo/proj4j -->
+            <dependency>
+                <groupId>org.osgeo</groupId>
+                <artifactId>proj4j</artifactId>
+                <version>0.1.0</version>
+            </dependency>
             <!--A geometry model that conforms to the OGC Simple Features for SQL specification.-->
             <dependency>
                 <groupId>org.geolatte</groupId>
@@ -130,13 +128,11 @@
                 <artifactId>gt-swing</artifactId>
                 <version>${geotools.version}</version>
             </dependency>-->
-            <!-- https://mvnrepository.com/artifact/org.geotools/gt-process -->
             <dependency>
                 <groupId>org.geotools</groupId>
                 <artifactId>gt-process</artifactId>
                 <version>${geotools.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.geotools/gt-process-raster -->
             <dependency>
                 <groupId>org.geotools</groupId>
                 <artifactId>gt-process-raster</artifactId>
@@ -191,11 +187,11 @@
             Connection to an embedded EPSG database in HSQL format.
             This database is built from the SQL scripts delivered by EPSG.
             -->
-           <!-- <dependency>
-                <groupId>org.geotools</groupId>
-                <artifactId>gt-epsg-hsql</artifactId>
-                <version>${geotools.version}</version>
-            </dependency>-->
+            <dependency>
+                 <groupId>org.geotools</groupId>
+                 <artifactId>gt-epsg-hsql</artifactId>
+                 <version>${geotools.version}</version>
+             </dependency>
             <dependency>
                 <groupId>org.geotools</groupId>
                 <artifactId>gt-epsg-wkt</artifactId>
@@ -226,6 +222,11 @@
                 <artifactId>gt-wms</artifactId>
                 <version>${geotools.version}</version>
             </dependency>
+            <dependency>
+                <groupId>it.geosolutions</groupId>
+                <artifactId>geoserver-manager</artifactId>
+                <version>1.7.0</version>
+            </dependency>
             <!--
                 使用与dll文件一致的， gisinternals 提供的jar文件。使用nexus管理
                 dll文件通过配置系统环境变量解决：C:\Program Files\GDAL
@@ -236,14 +237,34 @@
                 <version>${gdal.version}</version>
                 <classifier>gisinternals</classifier>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/org.osgeo/proj4j -->
+            <dependency>
+                <groupId>org.osgeo</groupId>
+                <artifactId>proj4j</artifactId>
+                <version>0.1.0</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
                 <version>4.5.6</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.geotools/gt-arcgrid -->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-arcgrid</artifactId>
+                <version>18.4</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.geotools/gt-epsg-extension:http://repo.boundlessgeo.com/main/ -->
+            <!--Contains extra CRS defined by ESRI (and other parties) in the EPSG namespace-->
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-epsg-extension</artifactId>
+                <version>19.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
     <build>
         <plugins>
             <plugin>
@@ -251,8 +272,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -314,4 +335,5 @@
             </plugins>
         </pluginManagement>
     </build>
+
 </project>

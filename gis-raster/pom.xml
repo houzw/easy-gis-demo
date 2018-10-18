@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>gis</artifactId>
+        <artifactId>gis-demo</artifactId>
         <groupId>org.egc</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -15,10 +15,20 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
     </properties>
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.egc</groupId>
+            <artifactId>gis-commons</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.osgeo</groupId>
+            <artifactId>proj4j</artifactId>
+        </dependency>
         <!-- Datasource created to read GeoTIFF raster format. 包含 gt-coverage -->
         <dependency>
             <groupId>org.geotools</groupId>
@@ -48,6 +58,19 @@
             <classifier>natives-windows</classifier>
             <type>zip</type>
         </dependency>-->
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-arcgrid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-epsg-extension</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.osgeo/proj4j -->
+        <dependency>
+            <groupId>org.osgeo</groupId>
+            <artifactId>proj4j</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

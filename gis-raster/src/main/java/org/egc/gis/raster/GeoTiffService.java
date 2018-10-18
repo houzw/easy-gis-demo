@@ -1,6 +1,6 @@
 package org.egc.gis.raster;
 
-import org.egc.gis.raster.dto.RasterMetadata;
+import org.egc.gis.commons.RasterMetadata;
 import org.geotools.coverage.grid.GridCoverage2D;
 
 import java.io.IOException;
@@ -39,5 +39,5 @@ public interface GeoTiffService {
      * @param Coverage the Coverage2D
      * @return the raster metadata
      */
-    RasterMetadata readMetadata(GridCoverage2D Coverage);
+    RasterMetadata readMetadata(GridCoverage2D Coverage)throws IOException;
 }
