@@ -40,29 +40,32 @@
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-wmts</artifactId>
-            <version>19.2</version>
         </dependency>
         <!--This module provides access to tile services,
         notably OpenStreetMap and Bing Maps. It includes a TileLayer, for displaying tiles into a GeoTools map.-->
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-tile-client</artifactId>
-            <version>19.2</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.geotools/gt-geojson -->
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-geojson</artifactId>
-            <version>19.2</version>
         </dependency>
-
-        <!-- located at Boundless repository (http://repo.boundlessgeo.com/main/) -->
         <dependency>
             <groupId>org.geotools</groupId>
-            <artifactId>gt-wfs</artifactId>
-            <version>16.5</version>
+            <artifactId>gt-cql</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpasyncclient</artifactId>
+            <version>4.1.3</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/edu.umn.gis/mapscript -->
         <!--MapServer mapscript-->
         <!-- released at 2013. located at 52north repository (http://52north.org/maven/repo/releases/)-->
@@ -72,6 +75,10 @@
             <version>6.0.3</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-wfs-ng</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

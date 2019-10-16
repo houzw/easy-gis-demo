@@ -1,6 +1,8 @@
 package org.egc.gis.gdal.test;
 
-import org.egc.gis.commons.GdalDrivers;
+import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.StatusCode;
+import org.egc.gis.gdal.raster.format.RasterConversion;
 import org.gdal.gdal.Dataset;
 import org.gdal.gdal.gdal;
 import org.gdal.gdalconst.gdalconst;
@@ -8,6 +10,8 @@ import org.gdal.ogr.DataSource;
 import org.gdal.ogr.Driver;
 import org.gdal.ogr.ogr;
 import org.junit.Test;
+
+import java.io.File;
 
 /**
  * Description:
@@ -25,20 +29,30 @@ public class FormatConvert {
 
     String tif = "H:\\gisdemo\\in\\xcDEM.tif";
     String jpg = "H:\\gisdemo\\out\\xcDEM.jpg";
-
+    File file = new File("src/test/resources/sourcedem");
+    String path = file.getAbsolutePath();
     //adf2tiff
+    @Test
+    public void adf2tiff() {
 
+        StatusCode statusCode = RasterConversion.adf2GeoTIFF(path + "/adf/hdr.adf", 4326, path + "/dblbnd.tif");
+        System.out.println(statusCode);
+    }
 
     //asc2tiff
-
     @Test
-    public void toJpg(){
+    public void asc2tiff() {
+        StatusCode statusCode = RasterConversion.asc2GeoTIFF(path + "/asc/twi.asc", 4326, path + "/twi.tif");
+        System.out.println(statusCode);
+    }
+    @Test
+    public void toJpg() {
         gdal.AllRegister();
         //设置中文
         gdal.SetConfigOption("gdal_FILENAME_IS_UTF8", "YES");
-        Dataset ds=gdal.Open(tif, gdalconst.GA_ReadOnly);
+        Dataset ds = gdal.Open(tif, gdalconst.GA_ReadOnly);
         org.gdal.gdal.Driver driver = ds.GetDriver();
-        driver.CreateCopy(jpg,ds);
+        driver.CreateCopy(jpg, ds);
         ds.delete();
         driver.delete();
         System.out.println("success");
@@ -47,7 +61,7 @@ public class FormatConvert {
     //shp2geojson
     // 原文：https://blog.csdn.net/wk1134314305/article/details/76696333?utm_source=copy
     @Test
-    public void toGeoJSON(){
+    public void toGeoJSON() {
         // 注册所有的驱动
         ogr.RegisterAll();
         // 为了支持中文路径，请添加下面这句代码
@@ -57,7 +71,7 @@ public class FormatConvert {
 
         // 打开文件
         DataSource ds = ogr.Open(shp, 0);
-        Driver dv = ogr.GetDriverByName(GdalDrivers.GeoJSON.name());
+        Driver dv = ogr.GetDriverByName(GdalDriversEnum.GeoJSON.name());
         if (dv == null) {
             System.out.println("打开驱动失败！");
             return;
@@ -70,7 +84,7 @@ public class FormatConvert {
     }
 
     @Test
-    public void toKML(){
+    public void toKML() {
         // 注册所有的驱动
         ogr.RegisterAll();
         // 为了支持中文路径，请添加下面这句代码
@@ -80,7 +94,7 @@ public class FormatConvert {
 
         // 打开文件
         DataSource ds = ogr.Open(shp, 0);
-        Driver dv = ogr.GetDriverByName(GdalDrivers.KML.name());
+        Driver dv = ogr.GetDriverByName(GdalDriversEnum.KML.name());
         if (dv == null) {
             System.out.println("打开驱动失败！");
             return;

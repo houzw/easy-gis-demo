@@ -5,16 +5,19 @@ import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.coverage.grid.io.GridFormatFinder;
-import org.geotools.factory.Hints;
 import org.geotools.gce.geotiff.GeoTiffFormat;
+import org.geotools.geometry.Envelope2D;
+import org.geotools.util.factory.Hints;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
 
+
 /**
  * TODO
- *
+ * https://www.programcreek.com/java-api-examples/?api=org.geotools.coverage.grid.GridCoverageFactory
+ * https://gis.stackexchange.com/questions/251526/converting-images-to-different-file-formats-using-geotools
  * @author houzhiwei
  * @date 2017/8/28 21:30
  */
@@ -32,5 +35,21 @@ public class RasterServiceImpl implements RasterService {
         }
         GridCoverage2DReader reader = format.getReader(rasterFile, hints);
         return (GridCoverage2D) reader.read(null);
+    }
+
+    @Override
+    public GridCoverage2D write(String file) throws IOException {
+        return null;
+    }
+
+    @Override
+    public GridCoverage2D clip(String file, String shp) {
+
+        return null;
+    }
+
+    @Override
+    public GridCoverage2D clip(String file, Envelope2D boundingBox) {
+        return null;
     }
 }

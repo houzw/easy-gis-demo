@@ -1,396 +1,535 @@
 package org.egc.gis.taudem;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.exec.CommandLine;
 import org.apache.commons.lang3.StringUtils;
-import org.egc.commons.web.ExecutionStatus;
+import org.egc.commons.command.ExecResult;
+import org.egc.gis.taudem.params.PitRemoveParams;
 
-import java.util.HashMap;
+import javax.validation.constraints.NotBlank;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * Description:
  * <pre>
  * TauDEM Basic Grid Analysis
+ * generated use Scrapy json result and freemarker, edited by author
+ * <b>若 Input_* 和 Output_* 参数已包含路径， *Dir 参数可为 null</b>
  * </pre>
  *
  * @author houzhiwei
- * @date 2018 /10/12 16:50
+ * @date 2018 /10/25 21:50
  */
-@Slf4j
 public class BasicGridAnalysis extends BaseTauDEM {
 
-    /**
-     * Remove Pits: Get hydrologically correct elevation grid with pits removed either by filling or carving
-     * http://hydrology.usu.edu/taudem/taudem5/help53/PitRemove.html
-     *
-     * @param Input_Elevation_Grid              Input elevation grid to be processed
-     * @param Output_Pit_Removed_Elevation_Grid Output elevation grid with pits filled
-     * @return {@link ExecutionStatus}
-     * @see #PitRemove(String, String, boolean, String) #PitRemove(String, String, boolean, String)#PitRemove(String, String, boolean, String)
-     */
-    public ExecutionStatus PitRemove(String Input_Elevation_Grid, String Output_Pit_Removed_Elevation_Grid) {
-        return PitRemove(Input_Elevation_Grid, Output_Pit_Removed_Elevation_Grid, false, null);
-    }
+
+    private static BasicGridAnalysis ourInstance = new BasicGridAnalysis();
 
     /**
-     * Remove Pits: Get hydrologically correct elevation grid with pits removed either by filling or carving
-     * http://hydrology.usu.edu/taudem/taudem5/help53/PitRemove.html
+     * Gets instance.
      *
-     * @param Input_Elevation_Grid              Input elevation grid (with full path) to be processed
-     * @param Output_Pit_Removed_Elevation_Grid Output elevation grid with pits filled
-     * @param only4Ways                         (Optional:false) Fill Considering only 4 way neighbors (N, S, E or W neighbors)
-     * @param Input_Depression_Mask_Grid        (Optional)	depression mask file
-     * @return {@link ExecutionStatus}
+     * @return the instance
      */
-    public ExecutionStatus PitRemove(String Input_Elevation_Grid, String Output_Pit_Removed_Elevation_Grid,
-                                     boolean only4Ways, String Input_Depression_Mask_Grid)
+    public static BasicGridAnalysis getInstance() {
+        return ourInstance;
+    }
+
+    private BasicGridAnalysis() {
+    }
+
+
+    //region  Pit Remove
+
+    /**
+     * PitRemove
+     *
+     * @param Input_Elevation_Grid the input elevation grid
+     * @param outputDir            the output dir
+     * @return the exec result
+     * @see #PitRemove(String, String, String, String) #PitRemove(String, String, String, String)
+     * @see #PitRemove(String, String, Boolean, String, String, String)
+     */
+    public static ExecResult PitRemove(@NotBlank String Input_Elevation_Grid, String outputDir)
     {
-        Preconditions.checkNotNull(Strings.emptyToNull(Input_Elevation_Grid),
-                                   "Input Elevation Grid Can Not Be Null Nor Empty");
-
-        CommandLine cmd = initCmd();
-        cmd.addArgument(TauDEMCommands.PIT_REMOVE);
-        //Input elevation grid
-        cmd.addArgument("-z");
-        cmd.addArgument("${demfile}");
-        //Output elevation grid with pits filled
-        cmd.addArgument("-fel");
-        cmd.addArgument("${felfile}");
-        Map files = new HashMap(2);
-        files.put("demfile", Input_Elevation_Grid);
-        files.put("felfile", Output_Pit_Removed_Elevation_Grid);
-
-        if (only4Ways) {
-            //only 4 directions (N, S, E or W neighbors)
-            cmd.addArgument("-4way");
-        }
-        if (StringUtils.isNotBlank(Input_Depression_Mask_Grid)) {
-            //depression maskFile file(Optional)
-            cmd.addArgument("-depmask");
-            cmd.addArgument("${depmaskfile}");
-            files.put("depmaskfile", Input_Depression_Mask_Grid);
-        }
-        return execute(cmd, files);
+        return PitRemove(Input_Elevation_Grid, null, null, outputDir);
     }
 
     /**
-     * Flow Directions use D8.
+     * PitRemove
      *
-     * @param Input_Pit_Filled_Elevation_Grid Pit filled elevation input data
-     * @param Output_D8_Flow_Direction_Grid   D8 flow directions output
-     * @param Output_D8_Slope_Grid            D8 slopes output
-     * @return {@link ExecutionStatus}
+     * @param Input_Elevation_Grid              the input elevation grid
+     * @param Output_Pit_Removed_Elevation_Grid the output pit removed elevation grid
+     * @param inputDir                          the input dir
+     * @param outputDir                         the output dir
+     * @return the exec result
+     * @see #PitRemove(String, String) #PitRemove(String, String)
+     * @see #PitRemove(String, String, Boolean, String, String, String)
      */
-    public ExecutionStatus D8Flowdir(String Input_Pit_Filled_Elevation_Grid, String Output_D8_Flow_Direction_Grid, String Output_D8_Slope_Grid) {
-        Preconditions.checkNotNull(Strings.emptyToNull(Input_Pit_Filled_Elevation_Grid),
-                                   "Input Pit Filled Elevation Grid Can Not Be Null Nor Empty");
+    public static ExecResult PitRemove(@NotBlank String Input_Elevation_Grid, String Output_Pit_Removed_Elevation_Grid,
+                                       String inputDir, String outputDir)
+    {
+        return PitRemove(Input_Elevation_Grid, Output_Pit_Removed_Elevation_Grid, false, null, inputDir, outputDir);
+    }
 
-        CommandLine cmd = initCmd();
-        cmd.addArgument(TauDEMCommands.D8_FLOWDIR);
-        //Pit filled elevation input data
-        cmd.addArgument("-fel");
-        cmd.addArgument("${felfile}");
-        //D8 flow directions output
-        cmd.addArgument("-p");
-        cmd.addArgument("${pfile}");
+
+
+    /**
+     * PitRemove
+     * <p> This funciton identifies all pits in the DEM and raises their elevation to the level of the lowest pour point around their edge.
+     *
+     * @param Input_Elevation_Grid                  A digital elevation model (DEM) grid to serve as the base input for the terrain analysis and stream delineation.
+     * @param Output_Pit_Removed_Elevation_Grid     A grid of elevation values with pits removed so that flow is routed off of the domain.
+     * @param Fill_Considering_only_4_way_neighbors If this option is selected Fill ensures that the grid is hydrologically conditioned with cell to cell connectivity in only 4 directions (N, S, E or W neighbors).
+     * @param Input_Depression_Mask_Grid            the input depression mask grid
+     * @param inputDir                              the input dir  输入数据所在文件目录。
+     * @param outputDir                             the output dir 输出数据存放目录
+     * @return true if succeeded otherwise false
+     * @see #PitRemove(String, String) #PitRemove(String, String)
+     * @see #PitRemove(String, String, String, String) #PitRemove(String, String, String, String)
+     */
+    public static ExecResult PitRemove(@NotBlank String Input_Elevation_Grid, String Output_Pit_Removed_Elevation_Grid,
+                                       Boolean Fill_Considering_only_4_way_neighbors, String Input_Depression_Mask_Grid,
+                                       String inputDir, String outputDir)
+    {
+        new PitRemoveParams("").getInput_Elevation_Grid();
+        Map files = new LinkedHashMap(2);
+        Map outFiles = new LinkedHashMap(1);
+        Map params = new LinkedHashMap(1);
+
+        // A digital elevation model (DEM) grid to serve as the base input for the terrain analysis and stream delineation.
+        files.put("-z", Input_Elevation_Grid);
+        // If this option is selected Fill ensures that the grid is hydrologically conditioned with cell to cell connectivity in only 4 directions (N, S, E or W neighbors).
+        params.put("-4way", Fill_Considering_only_4_way_neighbors);
+        //
+        files.put("-depmask", Input_Depression_Mask_Grid);
+        // A grid of elevation values with pits removed so that flow is routed off of the domain.
+        if (StringUtils.isBlank(Output_Pit_Removed_Elevation_Grid)) {
+            Output_Pit_Removed_Elevation_Grid = outputNaming(Input_Elevation_Grid, Output_Pit_Removed_Elevation_Grid,
+                                                             "Output_Pit_Removed_Elevation_Grid", "Raster Dataset");
+        }
+        outFiles.put("-fel", Output_Pit_Removed_Elevation_Grid);
+        return ourInstance.runCommand(TauDEMCommands.PIT_REMOVE, files, outFiles, params, inputDir, outputDir);
+    }
+
+    //endregion
+
+
+    //region D8 Flow Direction
+
+    /**
+     * D8FlowDirections
+     *
+     * @param Input_Pit_Filled_Elevation_Grid the input pit filled elevation grid
+     * @param outputDir                       the output dir
+     * @return the exec result
+     * @see #D8FlowDirections(String, String, String, String, String)
+     */
+    public static ExecResult D8FlowDirections(@NotBlank String Input_Pit_Filled_Elevation_Grid, String outputDir)
+    {
+        return D8FlowDirections(Input_Pit_Filled_Elevation_Grid,
+                                null, null, null, outputDir);
+    }
+
+    /**
+     * D8FlowDirections
+     *
+     * @param Input_Pit_Filled_Elevation_Grid the input pit filled elevation grid
+     * @param Output_D8_Flow_Direction_Grid   the output d 8 flow direction grid
+     * @param Output_D8_Slope_Grid            the output d 8 slope grid
+     * @return the exec result
+     * @see #D8FlowDirections(String, String, String, String, String)
+     */
+    public static ExecResult D8FlowDirections(@NotBlank String Input_Pit_Filled_Elevation_Grid,
+                                              String Output_D8_Flow_Direction_Grid, String Output_D8_Slope_Grid)
+    {
+        return D8FlowDirections(Input_Pit_Filled_Elevation_Grid,
+                                Output_D8_Flow_Direction_Grid, Output_D8_Slope_Grid, null, null);
+    }
+
+    /**
+     * D8FlowDirections
+     *
+     * @param Input_Pit_Filled_Elevation_Grid A grid of elevation values.
+     * @param Output_D8_Flow_Direction_Grid   A grid of D8 flow directions which are defined, for each cell, as the direction of the one of its eight adjacent or diagonal neighbors with the steepest downward slope.
+     * @param Output_D8_Slope_Grid            A grid giving slope in the D8 flow direction.
+     * @param inputDir                        the input dir
+     * @param outputDir                       the output dir
+     * @return true if succeeded otherwise false
+     */
+    public static ExecResult D8FlowDirections(@NotBlank String Input_Pit_Filled_Elevation_Grid,
+                                              String Output_D8_Flow_Direction_Grid, String Output_D8_Slope_Grid,
+                                              String inputDir, String outputDir)
+    {
+        Map files = new LinkedHashMap();
+        Map outFiles = new LinkedHashMap(2);
+        Map params = new LinkedHashMap();
+
+        // A grid of elevation values.
+        files.put("-fel", Input_Pit_Filled_Elevation_Grid);
+        // A grid of D8 flow directions which are defined, for each cell, as the direction of the one of its eight adjacent or diagonal neighbors with the steepest downward slope.
+        if (StringUtils.isBlank(Output_D8_Flow_Direction_Grid)) {
+            Output_D8_Flow_Direction_Grid = outputNaming(Input_Pit_Filled_Elevation_Grid, Output_D8_Flow_Direction_Grid,
+                                                         "Output_D8_Flow_Direction_Grid", "Raster Dataset");
+        }
+        outFiles.put("-p", Output_D8_Flow_Direction_Grid);
+        // A grid giving slope in the D8 flow direction.
+        if (StringUtils.isBlank(Output_D8_Slope_Grid)) {
+            Output_D8_Slope_Grid = outputNaming(Input_Pit_Filled_Elevation_Grid, Output_D8_Slope_Grid,
+                                                "Output_D8_Slope_Grid", "Raster Dataset");
+        }
         //D8 slopes output
-        cmd.addArgument("-sd8");
-        cmd.addArgument("${sd8file}");
-        Map files = new HashMap(3);
-        files.put("felfile", Input_Pit_Filled_Elevation_Grid);
-        files.put("pfile", Output_D8_Flow_Direction_Grid);
-        files.put("sd8file", Output_D8_Slope_Grid);
-        return execute(cmd, files);
+        outFiles.put("-sd8", Output_D8_Slope_Grid);
+        return ourInstance.runCommand(TauDEMCommands.D8_FLOWDIR, files, outFiles, params, inputDir, outputDir);
     }
 
-    /**
-     * Flow Directions use Dinf.
-     *
-     * @param Input_Pit_Filled_Elevation_Grid      Pit filled elevation input data
-     * @param Output_DInfinity_Flow_Direction_Grid Dinf flow directions output
-     * @param Output_Slope_Grid                    Dinf slopes output
-     * @return {@link ExecutionStatus}
-     */
-    public ExecutionStatus DinfFlowdir(String Input_Pit_Filled_Elevation_Grid, String Output_DInfinity_Flow_Direction_Grid, String Output_Slope_Grid) {
+    //endregion
 
-        Preconditions.checkNotNull(Strings.emptyToNull(Input_Pit_Filled_Elevation_Grid),
-                                   "Input Pit Filled Elevation Grid Can Not Be Null Nor Empty");
 
-        CommandLine cmd = initCmd();
-        cmd.addArgument(TauDEMCommands.DINF_FLOWDIR);
-        //Pit filled elevation input data
-        cmd.addArgument("-fel");
-        cmd.addArgument("${felfile}");
-        //Dinf flow directions output
-        cmd.addArgument("-ang");
-        cmd.addArgument("${angfile}");
-        // Dinf slopes output
-        cmd.addArgument("-slp");
-        cmd.addArgument("${slpfile}");
-        Map files = new HashMap(3);
-        files.put("felfile", Input_Pit_Filled_Elevation_Grid);
-        files.put("angfile", Output_DInfinity_Flow_Direction_Grid);
-        files.put("slpfile", Output_Slope_Grid);
-        return execute(cmd, files);
-    }
+    //region D-Infinity Flow Direction
 
     /**
-     * <p>
-     * Grid network.
-     * <p>Layer name and layer number should not both be specified.
-     * ref: http://hydrology.usu.edu/taudem/taudem5/help53/GridNetwork.html
-     * </p>
+     * D infinity flow directions exec result.
      *
-     * @param Input_D8_Flow_Direction_Grid       the input d8 flow direction grid
-     * @param Output_Longest_Upslope_Length_Grid grid of longest flow length upstream of each point output file
-     * @param Output_Total_Upslope_Length_Grid   grid of total path length upstream of each point output file
-     * @param Output_Strahler_Network_Order_Grid grid of strahler order output file
-     * @return {@link ExecutionStatus}
-     * @see #GridNetwork(String, String, String, String, String, String, long, String, double) #GridNetwork(String, String, String, String, String, String, long, String, double)#GridNetwork(String, String, String, String, String, String, long, String, double)
+     * @param Input_Pit_FIlled_Elevation_Grid the input pit f illed elevation grid
+     * @param outputDir                       the output dir
+     * @return the exec result
+     * @see #DInfinityFlowDirections(String, String, String, String, String)
      */
-    public ExecutionStatus GridNetwork(String Input_D8_Flow_Direction_Grid, String Output_Longest_Upslope_Length_Grid,
-                                       String Output_Total_Upslope_Length_Grid, String Output_Strahler_Network_Order_Grid)
+    public static ExecResult DInfinityFlowDirections(@NotBlank String Input_Pit_FIlled_Elevation_Grid,
+                                                     String outputDir)
     {
-        return GridNetwork(Input_D8_Flow_Direction_Grid, Output_Longest_Upslope_Length_Grid,
-                           Output_Total_Upslope_Length_Grid, Output_Strahler_Network_Order_Grid,
-                           null, null, 0, null, -1);
+        return DInfinityFlowDirections(Input_Pit_FIlled_Elevation_Grid,
+                                       null,
+                                       null, null, outputDir);
     }
 
     /**
-     * <p>
-     * Grid network.
-     * <p>Layer name and layer number should not both be specified.
-     * ref: http://hydrology.usu.edu/taudem/taudem5/help53/GridNetwork.html
-     * </p>
+     * D infinity flow directions exec result.
      *
-     * @param Input_D8_Flow_Direction_Grid       the input d8 flow direction grid
-     * @param Output_Longest_Upslope_Length_Grid grid of longest flow length upstream of each point output file
-     * @param Output_Total_Upslope_Length_Grid   grid of total path length upstream of each point output file
-     * @param Output_Strahler_Network_Order_Grid grid of strahler order output file
-     * @param Input_Outlets                      (Optional) the input outlets (OGR readable dataset)
-     * @param layerName                          (Optional) OGR layer name if outlets are not the first layer in outletfile
-     * @param layerNumber                        (Optional) OGR layer number if outlets are not the first layer in outletfile
-     * @param Input_Mask_Grid                    (Optional) the input mask grid
-     * @param Input_Mask_Threshold_Value         (Optional) Where a maskfile is input, there is an additional option to specify a threshold.                                           The grid network is evaluated for grid cells where values of the maskfile                                           grid read as 4 byte integers are >= threshold.
-     * @return {@link ExecutionStatus}
+     * @param Input_Pit_FIlled_Elevation_Grid      the input pit f illed elevation grid
+     * @param Output_DInfinity_Flow_Direction_Grid the output d infinity flow direction grid
+     * @param Output_DInfinity_Slope_Grid          the output d infinity slope grid
+     * @return the exec result
+     * @see #DInfinityFlowDirections(String, String, String, String, String)
      */
-    public ExecutionStatus GridNetwork(String Input_D8_Flow_Direction_Grid,
-                                       String Output_Longest_Upslope_Length_Grid,
-                                       String Output_Total_Upslope_Length_Grid,
-                                       String Output_Strahler_Network_Order_Grid,
-                                       String Input_Outlets, String layerName,
-                                       long layerNumber, String Input_Mask_Grid,
-                                       double Input_Mask_Threshold_Value)
+    public static ExecResult DInfinityFlowDirections(@NotBlank String Input_Pit_FIlled_Elevation_Grid,
+                                                     String Output_DInfinity_Flow_Direction_Grid,
+                                                     String Output_DInfinity_Slope_Grid)
     {
-        Preconditions.checkNotNull(Strings.emptyToNull(Input_D8_Flow_Direction_Grid),
-                                   "Input D8 Flow Direction Grid Can Not Be Null Nor Empty");
-
-        CommandLine cmd = initCmd();
-        cmd.addArgument(TauDEMCommands.GRID_NET);
-        //D8 flow directions input file
-        cmd.addArgument("-p");
-        cmd.addArgument("${pfile}");
-        //grid of longest flow length upstream of each point output file
-        cmd.addArgument("-plen");
-        cmd.addArgument("${plenfile}");
-        //grid of total path length upstream of each point output file
-        cmd.addArgument("-tlen");
-        cmd.addArgument("${tlenfile}");
-        //grid of strahler order output file
-        cmd.addArgument("-gord");
-        cmd.addArgument("${gordfile}");
-
-        Map files = new HashMap(4);
-        files.put("pfile", Input_D8_Flow_Direction_Grid);
-        files.put("plenfile", Output_Longest_Upslope_Length_Grid);
-        files.put("tlenfile", Output_Total_Upslope_Length_Grid);
-        files.put("gordfile", Output_Strahler_Network_Order_Grid);
-
-        if (StringUtils.isNotBlank(Input_Outlets)) {
-            // input outlets file (OGR readable dataset) (Optional)
-            cmd.addArgument("-o");
-            cmd.addArgument("${outletfile}");
-            files.put("outletfile", Input_Outlets);
-        }
-        if (StringUtils.isNotBlank(layerName)) {
-            //OGR layer name if outlets are not the first layer in outletfile (optional)
-            cmd.addArgument("-lyrname");
-            cmd.addArgument(layerName);
-        } else if (layerNumber > 0) {
-            //OGR layer number if outlets are not the first layer in outletfile (optional)
-            cmd.addArgument("-lyrno");
-            cmd.addArgument(layerNumber + "");
-        }
-
-        if (StringUtils.isNotBlank(Input_Mask_Grid)) {
-            //mask file(optional)
-            cmd.addArgument("-mask");
-            cmd.addArgument("${maskfile}");
-            files.put("maskfile", Input_Mask_Grid);
-        }
-        if (Input_Mask_Threshold_Value > 0) {
-            // Where a maskfile is input, there is an additional option to specify a threshold.
-            // This has to be immediately following the maskfile on the argument list.
-            cmd.addArgument("-thresh");
-            cmd.addArgument(Input_Mask_Threshold_Value + "");
-        }
-
-        return execute(cmd, files);
+        return DInfinityFlowDirections(Input_Pit_FIlled_Elevation_Grid,
+                                       Output_DInfinity_Flow_Direction_Grid,
+                                       Output_DInfinity_Slope_Grid, null, null);
     }
 
     /**
-     * 使用D8计算汇流面积。
+     * DInfinityFlowDirections
+     * <p> Assigns a flow direction based on the D-infinity flow method using the steepest slope of a triangular facet (Tarboton, 1997).
      *
-     * @param Input_D8_Flow_Direction_Grid Input flow directions grid
-     * @param Output_D8_Contributing_Area_Grid                      Output contributing area grid
-     * @return {@link ExecutionStatus}
-     * @see #D8ContributingArea(String, String, String, String, boolean, String, Integer) #D8ContributingArea(String, String, String, String, boolean, String, Integer)#D8ContributingArea(String, String, String, String, boolean, String, Integer)
+     * @param Input_Pit_FIlled_Elevation_Grid      A grid of elevation values.
+     * @param Output_DInfinity_Flow_Direction_Grid A grid of flow directions based on the D-infinity flow method using the steepest slope of a triangular facet (Tarboton, 1997).
+     * @param Output_DInfinity_Slope_Grid          A grid of slope evaluated using the D-infinity method
+     * @param inputDir                             the input dir
+     * @param outputDir                            the output dir
+     * @return true if succeeded otherwise false
      */
-    public ExecutionStatus D8ContributingArea(String Input_D8_Flow_Direction_Grid, String Output_D8_Contributing_Area_Grid) {
-        return D8ContributingArea(Input_D8_Flow_Direction_Grid, Output_D8_Contributing_Area_Grid, null, null, false, null, null);
-    }
-
-    /**
-     * <pre>
-     * 使用D8计算汇流面积。
-     * optional 参数不需要时，应赋值为 null
-     * Layer name and layer number should not both be specified.
-     * </pre>
-     * 命令行语法([]中为可选参数)
-     * <p> {@code mpiexec -n <number of processors> AreaD8  -p <pfile> -ad8 <ad8file>
-     * [ -o <outletfile>] [ -wg <wgfile>] [ -nc ]  [ -lyrname <layer name>] [ -lyrno <layer number>]
-     * }****
-     *
-     * @param Input_D8_Flow_Direction_Grid     Input flow directions grid (pfile)
-     * @param Output_D8_Contributing_Area_Grid Output contributing area grid (ad8file)
-     * @param Input_Outlets                    input outlets file (OGR readable dataset, optional)
-     * @param Input_Weight_Grid                Input weight grid (optional)
-     * @param Check_for_edge_contamination     Flag for edge contamination
-     * @param layerName                        OGR layer name if outlets are not the first layer in outletFile (optional)
-     * @param layerNumber                      OGR layer number if outlets are not the first layer in outletFile (optional)
-     * @return {@link ExecutionStatus}
-     */
-    public ExecutionStatus D8ContributingArea(String Input_D8_Flow_Direction_Grid,
-                                              String Output_D8_Contributing_Area_Grid,
-                                              String Input_Outlets, String Input_Weight_Grid,
-                                              boolean Check_for_edge_contamination,
-                                              String layerName, Integer layerNumber)
+    public static ExecResult DInfinityFlowDirections(@NotBlank String Input_Pit_FIlled_Elevation_Grid,
+                                                     String Output_DInfinity_Flow_Direction_Grid,
+                                                     String Output_DInfinity_Slope_Grid, String inputDir,
+                                                     String outputDir)
     {
-        Preconditions.checkNotNull(Strings.emptyToNull(Input_D8_Flow_Direction_Grid),
-                                   "Input D8 Flow Direction Grid Can Not Be Null Nor Empty");
+        Map files = new LinkedHashMap();
+        Map outFiles = new LinkedHashMap(2);
 
-        CommandLine cmd = initCmd();
-        cmd.addArgument(TauDEMCommands.D8_Contributing_Area);
-        cmd.addArgument("-p");
-        cmd.addArgument("${pfile}");
-        cmd.addArgument("-ad8");
-        cmd.addArgument("${ad8file}");
-        Map files = new HashMap(4);
-        files.put("pfile", Input_D8_Flow_Direction_Grid);
-        files.put("ad8file", Output_D8_Contributing_Area_Grid);
+        // A grid of elevation values.
+        files.put("-fel", Input_Pit_FIlled_Elevation_Grid);
+        // A grid of flow directions based on the D-infinity flow method using the steepest slope of a triangular facet (Tarboton, 1997, "A New Method for the Determination of Flow Directions and Contributing Areas in Grid Digital Elevation Models," Water Resources Research, 33(2): 309-319).
+        if (StringUtils.isBlank(Output_DInfinity_Flow_Direction_Grid)) {
+            Output_DInfinity_Flow_Direction_Grid = outputNaming(Input_Pit_FIlled_Elevation_Grid,
+                                                                Output_DInfinity_Flow_Direction_Grid,
+                                                                "Output_DInfinity_Flow_Direction_Grid",
+                                                                "Raster Dataset");
+        }
+        outFiles.put("-ang", Output_DInfinity_Flow_Direction_Grid);
+        // A grid of slope evaluated using the D-infinity method described in Tarboton, D.
+        if (StringUtils.isBlank(Output_DInfinity_Slope_Grid)) {
+            Output_DInfinity_Slope_Grid = outputNaming(Input_Pit_FIlled_Elevation_Grid, Output_DInfinity_Slope_Grid,
+                                                       "Output_DInfinity_Slope_Grid", "Raster Dataset");
+        }
+        outFiles.put("-slp", Output_DInfinity_Slope_Grid);
+        return ourInstance.runCommand(TauDEMCommands.D_INF_FLOWDIR, files, outFiles, null, inputDir, outputDir);
+    }
 
-        if (StringUtils.isNotBlank(Input_Outlets)) {
-            cmd.addArgument("-o");
-            cmd.addArgument("${outletfile}");
-            files.put("outletfile", Input_Outlets);
-        }
-        if (StringUtils.isNotBlank(Input_Weight_Grid)) {
-            cmd.addArgument("-wg");
-            cmd.addArgument("${wgfile}");
-            files.put("wgfile", Input_Weight_Grid);
-        }
-        if (Check_for_edge_contamination) {
-            cmd.addArgument("-nc");
-        }
+    //endregion
 
-        if (StringUtils.isNotBlank(layerName)) {
-            cmd.addArgument("-lyrname");
-            cmd.addArgument(layerName);
-        } else if (layerNumber != null && layerNumber > 0) {
-            cmd.addArgument("-lyrno");
-            cmd.addArgument("" + layerNumber);
-        }
-        return execute(cmd, files);
+
+    //region Grid Network
+
+
+    /**
+     * GridNetwork
+     *
+     * @param Input_D8_Flow_Direction_Grid the input d 8 flow direction grid
+     * @param outputDir                    the output dir
+     * @return the exec result
+     * @see #GridNetwork(String, String, String, Double, String, String, String, String, Integer, String, String)
+     */
+    public static ExecResult GridNetwork(@NotBlank String Input_D8_Flow_Direction_Grid,
+                                         String outputDir)
+    {
+        return GridNetwork(Input_D8_Flow_Direction_Grid, null,
+                           null, null, null,
+                           outputDir);
     }
 
     /**
-     * <p>D-infinity contributing area execution status.
-     * <p>Layer name and layer number should not both be specified.
+     * GridNetwork
      *
-     * @param Input_DInfinity_Flow_Direction_Grid           the input d-infinity flow direction grid
-     * @param Output_DInfinity_Specific_Catchment_Area_Grid the output d-infinity specific catchment area grid
-     * @return the execution status
+     * @param Input_D8_Flow_Direction_Grid       the input d 8 flow direction grid
+     * @param Output_Strahler_Network_Order_Grid the output strahler network order grid
+     * @param Output_Longest_Upslope_Length_Grid the output longest upslope length grid
+     * @param Output_Total_Upslope_Length_Grid   the output total upslope length grid
+     * @param inputDir                           the input dir
+     * @param outputDir                          the output dir
+     * @return the exec result
+     * @see #GridNetwork(String, String, String, Double, String, String, String, String, Integer, String, String)
      */
-    public ExecutionStatus DInfinityContributingArea(String Input_DInfinity_Flow_Direction_Grid,
-                                                     String Output_DInfinity_Specific_Catchment_Area_Grid)
+    public static ExecResult GridNetwork(@NotBlank String Input_D8_Flow_Direction_Grid,
+                                         String Output_Strahler_Network_Order_Grid,
+                                         String Output_Longest_Upslope_Length_Grid,
+                                         String Output_Total_Upslope_Length_Grid, String inputDir, String outputDir)
     {
-        return DInfinityContributingArea(Input_DInfinity_Flow_Direction_Grid, Output_DInfinity_Specific_Catchment_Area_Grid,
-                                         null, null, false, null, null);
+        return GridNetwork(Input_D8_Flow_Direction_Grid, null, null, null, Output_Strahler_Network_Order_Grid,
+                           Output_Longest_Upslope_Length_Grid, Output_Total_Upslope_Length_Grid, null, -1, inputDir,
+                           outputDir);
     }
 
     /**
-     * <p>D-infinity contributing area execution status.
-     * <p>Layer name and layer number should not both be specified.
+     * GridNetwork
+     * <p> Creates 3 grids that contain for each grid cell: 1) the longest path, 2) the total path, and 3) the Strahler order number.
      *
-     * @param Input_DInfinity_Flow_Direction_Grid           the input d-infinity flow direction grid
-     * @param Output_DInfinity_Specific_Catchment_Area_Grid the output d-infinity specific catchment area grid
-     * @param Input_Outlets                                 (Optional) the input outlets
-     * @param Input_Weight_Grid                             (Optional) the input weight grid
-     * @param Check_for_Edge_Contamination                  the check for edge contamination
-     * @param layerName                                     (Optional) the layer name
-     * @param layerNumber                                   (Optional) the layer number
-     * @return the execution status
+     * @param Input_D8_Flow_Direction_Grid       A grid of D8 flow directions which are defined, for each cell, as the direction of the one of its eight adjacent or diagonal neighbors with the steepest downward slope.
+     * @param Input_Outlets                      A point feature  defining the outlets of interest.
+     * @param Input_Mask_Grid                    A grid that is used to determine the domain do be analyzed.
+     * @param Input_Mask_Threshold_Value         This input parameter is used in the calculation mask grid value >= mask threshold to determine if the grid cell is in the domain to be analyzed.
+     * @param Output_Strahler_Network_Order_Grid A grid giving the Strahler order number for each cell.
+     * @param Output_Longest_Upslope_Length_Grid A grid that gives the length of the longest upslope D8 flow path terminating at each grid cell.
+     * @param Output_Total_Upslope_Length_Grid   The total upslope path length is the length of the entire D8 flow grid network upslope of each grid cell.
+     * @param layerName                          the layer name
+     * @param layerNumber                        the layer number
+     * @param inputDir                           the input dir
+     * @param outputDir                          the output dir
+     * @return true if succeeded otherwise false
      */
-    public ExecutionStatus DInfinityContributingArea(String Input_DInfinity_Flow_Direction_Grid,
-                                                     String Output_DInfinity_Specific_Catchment_Area_Grid,
-                                                     String Input_Outlets, String Input_Weight_Grid,
-                                                     boolean Check_for_Edge_Contamination, String layerName, Integer layerNumber)
+    public static ExecResult GridNetwork(@NotBlank String Input_D8_Flow_Direction_Grid, String Input_Outlets,
+                                         String Input_Mask_Grid, Double Input_Mask_Threshold_Value,
+                                         String Output_Strahler_Network_Order_Grid,
+                                         String Output_Longest_Upslope_Length_Grid,
+                                         String Output_Total_Upslope_Length_Grid, String layerName,
+                                         Integer layerNumber, String inputDir, String outputDir)
     {
-        Preconditions.checkNotNull(Strings.emptyToNull(Input_DInfinity_Flow_Direction_Grid),
-                                   "Input D-Infinity Flow Direction Grid Can Not Be Null Nor Empty");
-        CommandLine cmd = initCmd();
-        cmd.addArgument(TauDEMCommands.D_Infinity_Contributing_Area);
-        // Input Dinfflow directions grid
-        cmd.addArgument("-ang");
-        cmd.addArgument("${angfile}");
-        //Output Dinf contributing area grid
-        cmd.addArgument("-sca");
-        cmd.addArgument("${scafile}");
-        Map files = new HashMap(4);
-        files.put("angfile", Input_DInfinity_Flow_Direction_Grid);
-        files.put("scafile", Output_DInfinity_Specific_Catchment_Area_Grid);
 
-        if (StringUtils.isNotBlank(Input_Outlets)) {
-            // input outlets file (OGR readable dataset)
-            cmd.addArgument("-o");
-            cmd.addArgument("${outletfile}");
-            files.put("outletfile", Input_Outlets);
-        }
-        if (StringUtils.isNotBlank(Input_Weight_Grid)) {
-            //Input weight grid (optional)
-            cmd.addArgument("-wg");
-            cmd.addArgument("${wgfile}");
-            files.put("outletfile", Input_Weight_Grid);
-        }
+        Map files = new LinkedHashMap(3);
+        Map outFiles = new LinkedHashMap(3);
+        Map params = new LinkedHashMap();
 
-        if (Check_for_Edge_Contamination) {
-            //Flag for edge contamination
-            cmd.addArgument("-nc");
+        // A grid of D8 flow directions which are defined, for each cell, as the direction of the one of its eight adjacent or diagonal neighbors with the steepest downward slope.
+        files.put("-p", Input_D8_Flow_Direction_Grid);
+        // A point feature  defining the outlets of interest.
+        files.put("-o", Input_Outlets);
+        // A grid that is used to determine the domain do be analyzed.
+        files.put("-mask", Input_Mask_Grid);
+        // This input parameter is used in the calculation mask grid value >= mask threshold to determine if the grid cell is in the domain to be analyzed.
+        params.put("-thresh", Input_Mask_Threshold_Value);
+        // A grid giving the Strahler order number for each cell.
+        if (StringUtils.isBlank(Output_Strahler_Network_Order_Grid)) {
+            Output_Strahler_Network_Order_Grid = outputNaming(Input_D8_Flow_Direction_Grid,
+                                                              Output_Strahler_Network_Order_Grid,
+                                                              "Output_Strahler_Network_Order_Grid", "Raster Dataset");
         }
-
-        if (StringUtils.isNotBlank(layerName)) {
-            //OGR layer name if outlets are not the first layer in outletfile (optional)
-            cmd.addArgument("-lyrname");
-            cmd.addArgument(layerName);
-        } else if (layerNumber != null && layerNumber > 0) {
-            //OGR layer number if outlets are not the first layer in outletfile (optional)
-            cmd.addArgument("-lyrno");
-            cmd.addArgument(layerNumber + "");
+        outFiles.put("-gord", Output_Strahler_Network_Order_Grid);
+        // A grid that gives the length of the longest upslope D8 flow path terminating at each grid cell.
+        if (StringUtils.isBlank(Output_Longest_Upslope_Length_Grid)) {
+            Output_Longest_Upslope_Length_Grid = outputNaming(Input_D8_Flow_Direction_Grid,
+                                                              Output_Longest_Upslope_Length_Grid,
+                                                              "Output_Longest_Upslope_Length_Grid", "Raster Dataset");
         }
-        return execute(cmd, files);
+        outFiles.put("-plen", Output_Longest_Upslope_Length_Grid);
+        // The total upslope path length is the length of the entire D8 flow grid network upslope of each grid cell.
+        if (StringUtils.isBlank(Output_Total_Upslope_Length_Grid)) {
+            Output_Total_Upslope_Length_Grid = outputNaming(Input_D8_Flow_Direction_Grid,
+                                                            Output_Total_Upslope_Length_Grid,
+                                                            "Output_Total_Upslope_Length_Grid", "Raster Dataset");
+        }
+        outFiles.put("-tlen", Output_Total_Upslope_Length_Grid);
+        params = layerNameAndNumber(params, layerName, layerNumber);
+        return ourInstance.runCommand(TauDEMCommands.GRID_NET, files, outFiles, params, inputDir, outputDir);
     }
+
+    //endregion
+
+
+    //region   D8 Contributing Area
+
+    /**
+     * D8ContributingArea
+     *
+     * @param Input_D8_Flow_Direction_Grid the input d 8 flow direction grid
+     * @param outputDir                    the output dir
+     * @return the exec result
+     * @see #D8ContributingArea(String, String, String, String, Boolean, String, Integer, String, String)
+     */
+    public static ExecResult D8ContributingArea(@NotBlank String Input_D8_Flow_Direction_Grid,
+                                                String outputDir)
+    {
+        return D8ContributingArea(Input_D8_Flow_Direction_Grid, null, null, outputDir);
+    }
+
+    /**
+     * D8ContributingArea
+     *
+     * @param Input_D8_Flow_Direction_Grid     the input d 8 flow direction grid
+     * @param Output_D8_Contributing_Area_Grid the output d 8 contributing area grid
+     * @param inputDir                         the input dir
+     * @param outputDir                        the output dir
+     * @return the exec result
+     * @see #D8ContributingArea(String, String, String, String, Boolean, String, Integer, String, String)
+     */
+    public static ExecResult D8ContributingArea(@NotBlank String Input_D8_Flow_Direction_Grid,
+                                                String Output_D8_Contributing_Area_Grid, String inputDir,
+                                                String outputDir)
+    {
+        return D8ContributingArea(Input_D8_Flow_Direction_Grid, Output_D8_Contributing_Area_Grid, null, null, false,
+                                  null, -1, inputDir, outputDir);
+    }
+
+    /**
+     * D8ContributingArea
+     *
+     * @param Input_D8_Flow_Direction_Grid     A grid of D8 flow directions which are defined, for each cell, as the direction of the one of its eight adjacent or diagonal neighbors with the steepest downward slope.
+     * @param Output_D8_Contributing_Area_Grid A grid of contributing area values calculated as the cells own contribution plus the contribution from upslope neighbors that drain in to it according to the D8 flow model.
+     * @param Input_Outlets                    A point feature defining the outlets of interest.
+     * @param Input_Weight_Grid                A grid giving contribution to flow for each cell.
+     * @param Check_for_edge_contamination     A flag that indicates whether the tool should check for edge contamination.
+     * @param layerName                        the layer name
+     * @param layerNumber                      the layer number
+     * @param inputDir                         the input dir
+     * @param outputDir                        the output dir
+     * @return true if succeeded otherwise false
+     */
+    public static ExecResult D8ContributingArea(@NotBlank String Input_D8_Flow_Direction_Grid,
+                                                String Output_D8_Contributing_Area_Grid,
+                                                String Input_Outlets, String Input_Weight_Grid,
+                                                Boolean Check_for_edge_contamination,
+                                                String layerName, Integer layerNumber, String inputDir,
+                                                String outputDir)
+    {
+
+        Map files = new LinkedHashMap(3);
+        Map outFiles = new LinkedHashMap();
+        Map params = new LinkedHashMap(3);
+
+        // A grid of D8 flow directions which are defined, for each cell, as the direction of the one of its eight adjacent or diagonal neighbors with the steepest downward slope.
+        files.put("-p", Input_D8_Flow_Direction_Grid);
+        // A point feature defining the outlets of interest.
+        files.put("-o", Input_Outlets);
+        // A grid giving contribution to flow for each cell.
+        files.put("-wg", Input_Weight_Grid);
+        // A flag that indicates whether the tool should check for edge contamination.
+        params.put("-nc", Check_for_edge_contamination);
+        // A grid of contributing area values calculated as the cells own contribution plus the contribution from upslope neighbors that drain in to it according to the D8 flow model.
+        if (StringUtils.isBlank(Output_D8_Contributing_Area_Grid)) {
+            Output_D8_Contributing_Area_Grid = outputNaming(Input_D8_Flow_Direction_Grid,
+                                                            Output_D8_Contributing_Area_Grid,
+                                                            "Output_D8_Contributing_Area_Grid", "Raster Dataset");
+        }
+        outFiles.put("-ad8", Output_D8_Contributing_Area_Grid);
+        params = layerNameAndNumber(params, layerName, layerNumber);
+        return ourInstance.runCommand("AreaD8", files, outFiles, params, inputDir, outputDir);
+    }
+
+    //endregion
+
+
+    //region   D-Infinity Contributing Area
+
+    /**
+     * DInfinityContributingArea
+     *
+     * @param Input_DInfinity_Flow_Direction_Grid the input d infinity flow direction grid
+     * @param outputDir                           the output dir
+     * @return the exec result
+     * @see #DInfinityContributingArea(String, String, String, Boolean, String, String, Integer, String, String)
+     */
+    public static ExecResult DInfinityContributingArea(@NotBlank String Input_DInfinity_Flow_Direction_Grid,
+                                                       String outputDir)
+    {
+        return DInfinityContributingArea(Input_DInfinity_Flow_Direction_Grid, null, null,
+                                         outputDir);
+    }
+
+    /**
+     * DInfinityContributingArea
+     *
+     * @param Input_DInfinity_Flow_Direction_Grid           the input d infinity flow direction grid
+     * @param Output_DInfinity_Specific_Catchment_Area_Grid the output d infinity specific catchment area grid
+     * @param inputDir                                      the input dir
+     * @param outputDir                                     the output dir
+     * @return the exec result
+     * @see #DInfinityContributingArea(String, String, String, Boolean, String, String, Integer, String, String)
+     */
+    public static ExecResult DInfinityContributingArea(@NotBlank String Input_DInfinity_Flow_Direction_Grid,
+                                                       String Output_DInfinity_Specific_Catchment_Area_Grid,
+                                                       String inputDir, String outputDir)
+    {
+        return DInfinityContributingArea(Input_DInfinity_Flow_Direction_Grid, null, null, false,
+                                         Output_DInfinity_Specific_Catchment_Area_Grid, null, -1, inputDir, outputDir);
+    }
+
+    /**
+     * DInfinityContributingArea
+     * <p> Calculates a grid of specific catchment area which is the contributing area per unit contour length using the multiple flow direction D-infinity approach.
+     *
+     * @param Input_DInfinity_Flow_Direction_Grid           A grid of flow directions based on the D-infinity flow method using the steepest slope of a triangular facet (Tarboton, 1997).
+     * @param Input_Outlets                                 A point feature defining the outlets of interest.
+     * @param Input_Weight_Grid                             A grid giving contribution to flow for each cell.
+     * @param Check_for_Edge_Contamination                  A flag that indicates whether the tool should check for edge contamination.
+     * @param Output_DInfinity_Specific_Catchment_Area_Grid A grid of specific catchment area which is the contributing area per unit contour length using the multiple flow direction D-infinity approach.
+     * @param layerName                                     the layer name
+     * @param layerNumber                                   the layer number
+     * @param inputDir                                      the input dir
+     * @param outputDir                                     the output dir
+     * @return true if succeeded otherwise false
+     */
+    public static ExecResult DInfinityContributingArea(@NotBlank String Input_DInfinity_Flow_Direction_Grid,
+                                                       String Input_Outlets, String Input_Weight_Grid,
+                                                       Boolean Check_for_Edge_Contamination,
+                                                       String Output_DInfinity_Specific_Catchment_Area_Grid,
+                                                       String layerName, Integer layerNumber,
+                                                       String inputDir, String outputDir)
+    {
+        Map files = new LinkedHashMap(3);
+        Map outFiles = new LinkedHashMap();
+        Map params = new LinkedHashMap(3);
+
+        // A grid of flow directions based on the D-infinity flow method using the steepest slope of a triangular facet (Tarboton, 1997, "A New Method for the Determination of Flow Directions and Contributing Areas in Grid Digital Elevation Models," Water Resources Research, 33(2): 309-319).
+        files.put("-ang", Input_DInfinity_Flow_Direction_Grid);
+        // A point feature defining the outlets of interest.
+        files.put("-o", Input_Outlets);
+        // A grid giving contribution to flow for each cell.
+        files.put("-wg", Input_Weight_Grid);
+        // A flag that indicates whether the tool should check for edge contamination.
+        params.put("-nc", Check_for_Edge_Contamination);
+        // A grid of specific catchment area which is the contributing area per unit contour length using the multiple flow direction D-infinity approach.
+        if (StringUtils.isBlank(Output_DInfinity_Specific_Catchment_Area_Grid)) {
+            Output_DInfinity_Specific_Catchment_Area_Grid = outputNaming(Input_DInfinity_Flow_Direction_Grid,
+                                                                         Output_DInfinity_Specific_Catchment_Area_Grid,
+                                                                         "Output_DInfinity_Specific_Catchment_Area_Grid",
+                                                                         "Raster Dataset");
+        }
+        outFiles.put("-sca", Output_DInfinity_Specific_Catchment_Area_Grid);
+        params = layerNameAndNumber(params, layerName, layerNumber);
+        return ourInstance.runCommand("AreaDinf", files, outFiles, params, inputDir, outputDir);
+    }
+
+    //endregion
 
 }

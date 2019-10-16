@@ -21,6 +21,24 @@ import org.opengis.referencing.operation.TransformException;
  * @date 2018/10/7 15:08
  */
 public class ByGeotools {
+    String customWKT = "PROJCS[ \"UTM Zone 10, Northern Hemisphere\",\n" +
+            "  GEOGCS[\"GRS 1980(IUGG, 1980)\",\n" +
+            "    DATUM[\"unknown\"," +
+            "       SPHEROID[\"GRS80\",6378137,298.257222101]," +
+            "       TOWGS84[0,0,0,0,0,0,0]" +
+            "    ],\n" +
+            "    PRIMEM[\"Greenwich\",0],\n" +
+            "    UNIT[\"degree\",0.0174532925199433]\n" +
+            "  ],\n" +
+            "  PROJECTION[\"Transverse_Mercator\"],\n" +
+            "  PARAMETER[\"latitude_of_origin\",0],\n" +
+            "  PARAMETER[\"central_meridian\",-123],\n" +
+            "  PARAMETER[\"scale_factor\",0.9996],\n" +
+            "  PARAMETER[\"false_easting\",1640419.947506562],\n" +
+            "  PARAMETER[\"false_northing\",0],\n" +
+            "  UNIT[\"Foot (International)\",0.3048]\n" +
+            "]";
+
     @Test
     public void test() throws FactoryException, TransformException {
         CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:4326");

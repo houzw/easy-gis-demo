@@ -38,7 +38,6 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-process</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.geotools/gt-process-raster -->
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-process-raster</artifactId>
@@ -51,13 +50,7 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-coverage</artifactId>
         </dependency>
-        <!--<dependency>
-            <groupId>org.gdal</groupId>
-            <artifactId>gdal</artifactId>
-            <version>2.1.0</version>
-            <classifier>natives-windows</classifier>
-            <type>zip</type>
-        </dependency>-->
+
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-arcgrid</artifactId>
@@ -66,7 +59,6 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-epsg-extension</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.osgeo/proj4j -->
         <dependency>
             <groupId>org.osgeo</groupId>
             <artifactId>proj4j</artifactId>

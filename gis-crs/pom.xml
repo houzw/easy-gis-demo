@@ -30,7 +30,6 @@
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-referencing</artifactId>
-            <version>${geotools.version}</version>
         </dependency>
         <!--
             Connection to an embedded EPSG database in HSQL format.
@@ -39,12 +38,10 @@
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-epsg-hsql</artifactId>
-            <version>${geotools.version}</version>
         </dependency>
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-epsg-wkt</artifactId>
-            <version>${geotools.version}</version>
         </dependency>
         <!--
                 使用与dll文件一致的， gisinternals 提供的jar文件。使用nexus管理
@@ -54,7 +51,6 @@
         <dependency>
             <groupId>org.gdal</groupId>
             <artifactId>gdal</artifactId>
-            <version>${gdal.version}</version>
             <classifier>gisinternals</classifier>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.geotools/gt-epsg-extension:http://repo.boundlessgeo.com/main/ -->

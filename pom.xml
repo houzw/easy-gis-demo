@@ -25,11 +25,14 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <gdal.version>2.1.0</gdal.version>
+        <!--<gdal.version>1.11.4</gdal.version>-->
         <postgis-jdbc.version>2.2.1</postgis-jdbc.version>
         <psql.java8.version>9.4.1211</psql.java8.version>
         <geolatte.version>0.14</geolatte.version>
-        <geotools.version>19.2</geotools.version>
+        <!--<geotools.version>19.2</geotools.version>-->
+        <geotools.version>22.0</geotools.version>
         <geotools-wfs.version>16.5</geotools-wfs.version>
+        <cxf.version>3.2.2</cxf.version>
 
         <guava.version>19.0</guava.version>
         <commons-lang3.version>3.5</commons-lang3.version>
@@ -53,11 +56,19 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.slf4j/jcl-over-slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
             <version>${log4j2.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
@@ -85,7 +96,7 @@
         <dependency>
             <groupId>org.egc</groupId>
             <artifactId>commons</artifactId>
-            <version>2.0-SNAPSHOT</version>
+            <version>2.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <dependencyManagement>
@@ -198,6 +209,7 @@
                 <version>${geotools.version}</version>
             </dependency>
             <!--
+            WFS Client Module
             Implementation of DataStore allowing geotools code to work with an OGC Web Feature Service.
             Offers client code for WFS 1.0 and WFS 1.1.
             -->
@@ -223,9 +235,25 @@
                 <version>${geotools.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-wmts</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-tile-client</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>it.geosolutions</groupId>
                 <artifactId>geoserver-manager</artifactId>
                 <version>1.7.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <!--
                 使用与dll文件一致的， gisinternals 提供的jar文件。使用nexus管理
@@ -260,7 +288,36 @@
             <dependency>
                 <groupId>org.geotools</groupId>
                 <artifactId>gt-epsg-extension</artifactId>
-                <version>19.2</version>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-wfs-ng</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.geotools</groupId>
+                <artifactId>gt-cql</artifactId>
+                <version>${geotools.version}</version>
+            </dependency>
+
+            <!--cxf restful webservice-->
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+                <version>${cxf.version}</version>
+                <exclusions><!-- CXF uses java.util.logging by default -->
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!--or use -->
+            <dependency>
+                <groupId>org.apache.cxf</groupId>
+                <artifactId>cxf-rt-rs-client</artifactId>
+                <version>${cxf.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

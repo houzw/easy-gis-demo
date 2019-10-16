@@ -6,9 +6,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
+import org.geotools.referencing.ReferencingFactoryFinder;
+import org.geotools.referencing.operation.DefaultMathTransformFactory;
+import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.referencing.FactoryException;
+import org.opengis.referencing.NoSuchIdentifierException;
+import org.opengis.referencing.crs.CRSFactory;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
+import org.opengis.referencing.operation.MathTransformFactory;
+import org.opengis.referencing.operation.NoninvertibleTransformException;
 import org.opengis.referencing.operation.TransformException;
 
 import java.awt.geom.Rectangle2D;
@@ -26,18 +33,64 @@ import java.awt.geom.Rectangle2D;
 public class CoordinateTransformUtil {
     private CoordinateTransformUtil() {}
 
+    private static final double WGS84_AXIS_MINOR = 6356752.314;
+    private static final double WGS84_AXIS_MAJOR = 6378137.000;
+    // new Coordinate( latitude, longitude)
+    private static final Coordinate origin = new Coordinate(0, 0);
+
+    public static MathTransform customCRS() {
+        MathTransformFactory factory = new DefaultMathTransformFactory();
+        try {
+            ParameterValueGroup p = factory.getDefaultParameters("Transverse_Mercator");
+            // wkt 的 PROJECTION 部分的 parameter
+            p.parameter("semi_major").setValue(WGS84_AXIS_MAJOR);
+            p.parameter("semi_minor").setValue(WGS84_AXIS_MINOR);
+            p.parameter("central_meridian").setValue(origin.y);
+            p.parameter("latitude_of_origin").setValue(origin.x);
+            //false_easting/false_northing/standard_parallel_1/standard_parallel_2
+            MathTransform tr = factory.createParameterizedTransform(p).inverse();
+            return tr;
+        } catch (NoSuchIdentifierException e) {
+            e.printStackTrace();
+        } catch (NoninvertibleTransformException e) {
+            e.printStackTrace();
+        } catch (FactoryException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * http://johnewart.net/posts/2013/geotools_custom_crs/
+     *
+     * @param wkt
+     * @return
+     */
+    public static CoordinateReferenceSystem customCRSFromWkt(String wkt) {
+        CRSFactory factory = ReferencingFactoryFinder.getCRSFactory(null);
+        try {
+            CoordinateReferenceSystem customCRS = factory.createFromWKT(wkt);
+            return customCRS;
+        } catch (FactoryException e) {
+            log.error("Create custom CRS error", e.getLocalizedMessage());
+            return null;
+        }
+    }
+
     /**
      * Transform with epsg coordinate.
      *
      * @param fromEPSG 源 epsg, 如 4326
      * @param toEPSG   目标 epsg
-     * @param x        x 坐标或<b>纬度/lat</b>
-     * @param y        y 坐标或<b>经度/lon</b>
+     * @param x        x 坐标或<b>纬度/latitude</b>
+     * @param y        y 坐标或<b>经度/longitude</b>
      * @return the coordinate
      * @throws TransformException the transform exception
      * @throws FactoryException   the factory exception
      */
-    public static Coordinate transformEPSGCoordinate(int fromEPSG, int toEPSG, double x, double y) throws TransformException, FactoryException {
+    public static Coordinate transformEPSGCoordinate(int fromEPSG, int toEPSG, double x, double y) throws
+            TransformException, FactoryException
+    {
         return transformCoordinate("EPSG:" + fromEPSG, "EPSG:" + toEPSG, x, y);
     }
 
@@ -52,7 +105,9 @@ public class CoordinateTransformUtil {
      * @throws TransformException the transform exception
      * @throws FactoryException   the factory exception
      */
-    public static Coordinate transformCoordinate(String fromAuthority, String toAuthority, double x, double y) throws TransformException, FactoryException {
+    public static Coordinate transformCoordinate(String fromAuthority, String toAuthority, double x, double y) throws
+            TransformException, FactoryException
+    {
         CoordinateReferenceSystem sourceCRS = CRS.decode(fromAuthority);
         CoordinateReferenceSystem targetCRS = CRS.decode(toAuthority);
         // allow for some error due to different datums
@@ -76,7 +131,9 @@ public class CoordinateTransformUtil {
      * @return the referenced envelope
      * @throws FactoryException the factory exception
      */
-    public static ReferencedEnvelope transformEnvelope(String fromAuthority, String toAuthority, Rectangle2D bounds) throws FactoryException {
+    public static ReferencedEnvelope transformEnvelope(String fromAuthority, String toAuthority,
+                                                       Rectangle2D bounds) throws FactoryException
+    {
         CoordinateReferenceSystem fromCRS = CRS.decode(fromAuthority);
         CoordinateReferenceSystem toCRS = CRS.decode(toAuthority);
         try {

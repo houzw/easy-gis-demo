@@ -1,12 +1,12 @@
 package org.egc.gis.gdal.raster;
 
 import com.google.common.base.Strings;
+import lombok.extern.slf4j.Slf4j;
 import org.egc.commons.util.StringUtil;
+import org.egc.gis.commons.GdalDriversEnum;
 import org.egc.gis.commons.RasterMetadata;
-import org.gdal.gdal.Band;
-import org.gdal.gdal.Dataset;
-import org.gdal.gdal.Driver;
-import org.gdal.gdal.gdal;
+import org.egc.gis.commons.BoundingBox;
+import org.gdal.gdal.*;
 import org.gdal.gdalconst.gdalconst;
 import org.gdal.gdalconst.gdalconstConstants;
 import org.gdal.osr.SpatialReference;
@@ -14,17 +14,20 @@ import org.gdal.osr.SpatialReference;
 import java.io.IOException;
 import java.math.RoundingMode;
 import java.text.NumberFormat;
+import java.util.Vector;
 
 /**
  * Description:
  * <pre>
- *
+ * 可以参考 https://github.com/lreis2415/PyGeoC
  * </pre>
  *
  * @author houzhiwei
  * @date 2018/9/19 21:35
  */
+@Slf4j
 public class RasterUtil {
+    public static final String NODATA = "-9999";
 
     public RasterMetadata getRasterMetadata(String rasterFile) throws IOException {
 
@@ -66,7 +69,6 @@ public class RasterUtil {
         gdal.GDALDestroyDriverManager();
         return new RasterMetadata();
     }
-
 
     /**
      * 利用gdal获取栅格数据元数据
@@ -151,4 +153,46 @@ public class RasterUtil {
         nf.setGroupingUsed(false);
         return Double.parseDouble(nf.format(d));
     }
+
+    // Generate mask from  given raster
+    public static String generateMask(String tif) {
+        return "";
+    }
+
+    public static String reclassify(String tif) {
+        return "";
+    }
+    //https://gis.stackexchange.com/questions/45053/gdalwarp-cutline-along-with-shapefile
+
+    public static String clip(String tif, String shp, String shpField) {
+
+        return "";
+    }
+    //https://joeyklee.github.io/broc-cli-geo/guide/XX_raster_cropping_and_clipping.html
+    public static void clip(String srcFile, String dstFile, BoundingBox bounds, Double expand) {
+        Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());
+        driver.Register();
+        Dataset src = gdal.Open(srcFile);
+        log.info("Running with " + gdal.VersionInfo());
+        //version >= 2.1
+        Vector<String> optionsVector = new Vector<>();
+        optionsVector.add("-a_nodata");
+        optionsVector.add(NODATA);
+        optionsVector.add("-of");
+        optionsVector.add(GdalDriversEnum.GTiff.name());
+        optionsVector.add("-projwin");
+        if (expand == null) {
+            optionsVector.add(bounds.toString());
+        } else {
+            optionsVector.add(bounds.expand(expand).toString());
+        }
+        TranslateOptions options = new TranslateOptions(optionsVector);
+        gdal.Translate(dstFile, src, options);
+    }
+    //二值化,大于等于阈值的重新赋值为1，其他为0
+    public static String binarization(float threshold, String tif) {
+        return "";
+    }
+
+    //形态学操作？
 }

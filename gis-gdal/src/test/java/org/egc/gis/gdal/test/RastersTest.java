@@ -37,7 +37,7 @@ public class RastersTest {
         print(srs.GetAuthorityName(null));//epsg
         print(srs.GetAuthorityCode(null));//epsg
         print(ds.GetDescription());//H:/grass-demos/demo1/01_DEM.tif
-        print(ds.GetLayerCount());//0
+//        print(ds.GetLayerCount());//0
         print(ds.GetGCPs());//[]
         print(ds.GetMetadata_List("IMAGE_STRUCTURE"));//[COMPRESSION=LZW, INTERLEAVE=BAND]
         print(trans[1]);//8.333333333333375E-4
