@@ -3,3 +3,8 @@
 /.idea
 target
 *.iml
+gis-ows/logs/debug.log
+gis-gdal/src/test/resources/sourcedem/dblbnd.tif
+gis-gdal/src/test/resources/sourcedem/asc/twi.asc.aux.xml
+gis-gdal/logs/debug.log
+gis-crs/logs/debug.log
