@@ -27,8 +27,8 @@ public class RasterConversion {
      * @param tiff       the tiff
      * @return status code
      */
-    public static StatusCode asc2GeoTIFF(String asc, Integer targetEpsg, String tiff) {
-        return raster2Geotiff(asc, targetEpsg, tiff);
+    public static StatusCode asc2GeoTIFF(String asc, String tiff, Integer targetEpsg) {
+        return raster2Geotiff(asc, tiff, targetEpsg);
     }
 
     /**
@@ -39,28 +39,31 @@ public class RasterConversion {
      * @param tiff       the target tiff file
      * @return the status code
      */
-    public static StatusCode adf2GeoTIFF(String adf, Integer targetEpsg, String tiff) {
-        return raster2Geotiff(adf, targetEpsg, tiff);
+    public static StatusCode adf2GeoTIFF(String adf, String tiff, Integer targetEpsg) {
+        return raster2Geotiff(adf, tiff, targetEpsg);
     }
 
     /**
      * Raster to geotiff .
      *
      * @param fromFile   the from file
-     * @param targetEpsg the target epsg
+     * @param targetEpsg the target epsg, if null, same as fromFile
      * @param toFile     the to file
      * @return the status code
      */
-    public static StatusCode raster2Geotiff(String fromFile, Integer targetEpsg, String toFile) {
+    public static StatusCode raster2Geotiff(String fromFile, String toFile, Integer targetEpsg) {
         gdal.AllRegister();
         Dataset src = gdal.Open(fromFile, gdalconst.GA_ReadOnly);
         Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());
         Dataset out_ds = driver.CreateCopy(toFile, src);
+        SpatialReference srs = new SpatialReference();
         if (targetEpsg != null) {
-            SpatialReference srs = new SpatialReference();
             srs.ImportFromEPSG(targetEpsg);
-            out_ds.SetProjection(srs.ExportToWkt());
+        } else {
+            SpatialReference sr = new SpatialReference(src.GetProjectionRef());
+            srs.ImportFromWkt(sr.ExportToWkt());
         }
+        out_ds.SetProjection(srs.ExportToWkt());
 
         driver.delete();
         src.delete();

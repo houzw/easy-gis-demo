@@ -67,7 +67,8 @@ public class RasterUtil {
         band_0.GetNoDataValue(new Double[]{2d}); //?
         ds.delete();
         gdal.GDALDestroyDriverManager();
-        return new RasterMetadata();
+        //??
+        return metadata;
     }
 
     /**

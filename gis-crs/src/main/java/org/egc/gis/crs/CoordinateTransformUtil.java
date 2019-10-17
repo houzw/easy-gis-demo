@@ -1,13 +1,13 @@
 package org.egc.gis.crs;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Envelope;
+
 import lombok.extern.slf4j.Slf4j;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.geometry.jts.ReferencedEnvelope;
 import org.geotools.referencing.CRS;
 import org.geotools.referencing.ReferencingFactoryFinder;
 import org.geotools.referencing.operation.DefaultMathTransformFactory;
+import org.locationtech.jts.geom.*;
 import org.opengis.parameter.ParameterValueGroup;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.NoSuchIdentifierException;
@@ -121,6 +121,15 @@ public class CoordinateTransformUtil {
         return target;
     }
 
+    public static Point latlong2xy(int srcEpsg, int targetEpsg, double lon, double lat) throws FactoryException, TransformException {
+        CoordinateReferenceSystem sourceCRS = CRS.decode("EPSG:" + srcEpsg);
+        CoordinateReferenceSystem targetCRS = CRS.decode("EPSG:" + targetEpsg);
+        MathTransform transform = CRS.findMathTransform(sourceCRS, targetCRS, false);
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), srcEpsg);
+        Point point = geometryFactory.createPoint(new Coordinate(lon, lat));
+        Point targetPoint = (Point) JTS.transform(point, transform);
+        return targetPoint;
+    }
 
     /**
      * Transform envelope referenced envelope.

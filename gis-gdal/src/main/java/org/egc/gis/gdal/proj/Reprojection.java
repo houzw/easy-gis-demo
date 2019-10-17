@@ -103,6 +103,8 @@ public class Reprojection {
         return gdal.ReprojectImage(src, dst, src.GetProjection(), dstWKT);
     }
 
+    //https://gis.stackexchange.com/questions/234022/resampling-a-raster-from-python-without-using-gdalwarp
+    //https://blog.csdn.net/m0_37821031/article/details/79111051
     public int reproject2Utm(String srcFile, String dstFile) {
 
         Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());

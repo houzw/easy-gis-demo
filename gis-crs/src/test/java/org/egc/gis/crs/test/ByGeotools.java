@@ -1,15 +1,21 @@
 package org.egc.gis.crs.test;
 
-import com.vividsolutions.jts.geom.Coordinate;
 import org.egc.gis.crs.CoordinateTransformUtil;
+import org.egc.gis.crs.CustomCRSTtest;
+import org.geotools.coverage.grid.GridCoverage2D;
+import org.geotools.gce.geotiff.GeoTiffWriter;
 import org.geotools.geometry.jts.JTS;
 import org.geotools.referencing.CRS;
 import org.junit.Assert;
 import org.junit.Test;
+import org.locationtech.jts.geom.Coordinate;
 import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opengis.referencing.operation.MathTransform;
 import org.opengis.referencing.operation.TransformException;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Description:
@@ -69,10 +75,23 @@ public class ByGeotools {
     @Test
     public void testBj54ToWgs84() throws TransformException, FactoryException {
 
-        Coordinate coord = CoordinateTransformUtil.fromBeijing54ToWGS84(115.1237245,37.34498051 );//?118.611065451529,40.4621006468135
+        Coordinate coord = CoordinateTransformUtil.fromBeijing54ToWGS84(115.1237245, 37.34498051);//?118.611065451529,40.4621006468135
         System.out.println(coord.x);
         System.out.println(coord.y);
         Assert.assertEquals(37.3449, coord.x, 0.2);
+    }
 
+    String dem = "H:/gisdemo/DEM.tif";
+    String dem_tx = "H:/gisdemo/dem_TX.tif";
+
+    @Test
+    public void testReprojectTif() throws IOException, FactoryException {
+        //WGS84 Web Mercator
+        GridCoverage2D reproject = CustomCRSTtest.reproject(dem, 3857);
+        final File destFile = File.createTempFile("dem_3857", ".tif", new File("H:/gisdemo/"));
+//        final File destFile = File.createTempFile("dem_TX_3857", ".tif", new File("H:/gisdemo/"));
+        final GeoTiffWriter writer = new GeoTiffWriter(destFile);
+        writer.write(reproject, null);
+        writer.dispose();
     }
 }
