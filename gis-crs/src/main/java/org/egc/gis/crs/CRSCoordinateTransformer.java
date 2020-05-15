@@ -28,9 +28,9 @@ public class CRSCoordinateTransformer {
             sourceCoordinateReferenceSystem = CRS.decode("EPSG:" + srcEPSG);
             targetCoordinateReferenceSystem = CRS.decode("EPSG:4326" + targetEPSG);
             this.forwardMathTransform = CRS.findMathTransform(sourceCoordinateReferenceSystem,
-                                                              targetCoordinateReferenceSystem, true);
+                    targetCoordinateReferenceSystem, true);
             this.reverseMathTransform = CRS.findMathTransform(targetCoordinateReferenceSystem,
-                                                              sourceCoordinateReferenceSystem, true);
+                    sourceCoordinateReferenceSystem, true);
         } catch (FactoryException fex) {
             throw new ExceptionInInitializerError(fex);
         }
@@ -52,5 +52,59 @@ public class CRSCoordinateTransformer {
         DirectPosition2D destDirectPosition2D = new DirectPosition2D();
         forwardMathTransform.transform(srcDirectPosition2D, destDirectPosition2D);
         return new double[]{destDirectPosition2D.y, destDirectPosition2D.x};
+    }
+
+    /**
+     * 根据分带号求中央经线
+     *
+     * @param zone    带号
+     * @param isZone3 是否3°分带
+     * @return 中央经线经度
+     */
+    public int utmCentralMeridian(int zone, boolean isZone3) {
+        if (isZone3) {
+            return zone * 3;
+        } else {
+            return zone * 6 - 3;
+        }
+    }
+
+    /**
+     * 根据中央经线度数求带号
+     *
+     * @param centralMeridian 中央经线经度
+     * @param isZone3         是否3°分带
+     * @return
+     */
+    public int utmZoneCentral(int centralMeridian, boolean isZone3) {
+        if (isZone3) {
+            return centralMeridian / 3;
+        } else {
+            return (centralMeridian + 3) / 6;
+        }
+    }
+
+    /**
+     * 根据经度获取带号
+     * @param lon 经度
+     * @param isZone3 是否3°带
+     * @return 带号
+     */
+    public int utmZone(int lon, boolean isZone3) {
+        int zone = 0;
+        if (isZone3) {
+            if (lon % 3 > 1.5) {
+                zone = lon / 3 + 1;
+            } else {
+                zone = lon / 3;
+            }
+        } else {
+            if (Math.abs((lon + 3) % 6) < 3) {
+                zone = (lon + 3) / 6;
+            } else {
+                zone = (lon + 3) / 6 + 1;
+            }
+        }
+        return zone;
     }
 }

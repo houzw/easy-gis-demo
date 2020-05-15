@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wcs:Capabilities xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0" xmlns:inspire_dls="http://inspire.ec.europa.eu/schemas/inspire_dls/1.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:swe="http://www.opengis.net/swe/2.0" xmlns:crs="http://www.opengis.net/wcs/crs/1.0" xmlns:int="http://www.opengis.net/wcs/interpolation/1.0" xsi:schemaLocation="http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsAll.xsd " version="2.0.1">
+  <ows:ServiceIdentification>
+    <ows:Title>WCS NW DGM</ows:Title>
+    <ows:Abstract>Höhenmodell des Landes NRW.</ows:Abstract>
+    <ows:Keywords>
+      <ows:Keyword>NW</ows:Keyword>
+      <ows:Keyword>NRW</ows:Keyword>
+      <ows:Keyword>Nordrhein-Westfalen</ows:Keyword>
+      <ows:Keyword>Bezirksregierung Köln</ows:Keyword>
+      <ows:Keyword>Abteilung 7</ows:Keyword>
+      <ows:Keyword>Geobasis NRW</ows:Keyword>
+      <ows:Keyword>Geobasisdaten</ows:Keyword>
+      <ows:Keyword>Landesvermessung</ows:Keyword>
+      <ows:Keyword>AdV</ows:Keyword>
+      <ows:Keyword>Arbeitsgemeinschaft der Vermessungsverwaltungen der Länder</ows:Keyword>
+      <ows:Keyword>WCS</ows:Keyword>
+      <ows:Keyword>WCS_NW_DGM</ows:Keyword>
+      <ows:Keyword>DGM</ows:Keyword>
+      <ows:Keyword>Digitales Geländemodell</ows:Keyword>
+      <ows:Keyword>Geländemodell</ows:Keyword>
+    </ows:Keywords>
+    <ows:ServiceType codeSpace="OGC">OGC WCS</ows:ServiceType>
+    <ows:ServiceTypeVersion>2.0.1</ows:ServiceTypeVersion>
+    <ows:ServiceTypeVersion>1.1.1</ows:ServiceTypeVersion>
+    <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+    <ows:Profile>http://www.opengis.net/spec/WCS/2.0/conf/core</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/WCS_protocol-binding_get-kvp/1.0/conf/get-kvp</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/WCS_protocol-binding_post-xml/1.0/conf/post-xml</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/GMLCOV/1.0/conf/gml-coverage</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/GMLCOV/1.0/conf/multipart</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/GMLCOV/1.0/conf/special-format</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/GMLCOV_geotiff-coverages/1.0/conf/geotiff-coverage</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_crs/1.0/conf/crs</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_scaling/1.0/conf/scaling</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_range-subsetting/1.0/conf/record-subsetting</ows:Profile>
+    <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_interpolation/1.0/conf/interpolation</ows:Profile>
+    <ows:Fees>Nutzungsbedingungen: Die Geobasisdaten des amtlichen Vermessungswesens werden als öffentliche Aufgabe gem. VermKatG NRW und gebührenfrei nach Open Data-Prinzipien über online-Verfahren bereitgestellt. Nutzungsbedingungen: siehe http://www.bezreg-koeln.nrw.de/brk_internet/geobasis/lizenzbedingungen_geobasis_nrw.pdf</ows:Fees>
+    <ows:AccessConstraints>Die maximale Größe ist auf 2 x 2 Originalkacheln (4000 x 4000 Pixel) beschränkt.</ows:AccessConstraints>
+  </ows:ServiceIdentification>
+  <ows:ServiceProvider>
+    <ows:ProviderName>Geobasis NRW</ows:ProviderName>
+    <ows:ProviderSite xlink:type="simple" xlink:href="http://www.geobasis.nrw.de"/>
+    <ows:ServiceContact>
+      <ows:IndividualName/>
+      <ows:PositionName/>
+      <ows:ContactInfo>
+        <ows:Phone>
+          <ows:Voice>+49(0)221-147-4994</ows:Voice>
+          <ows:Facsimile>+49(0)221-147-4874</ows:Facsimile>
+        </ows:Phone>
+        <ows:Address>
+          <ows:DeliveryPoint>Muffendorfer Str. 19-21</ows:DeliveryPoint>
+          <ows:City>Bonn</ows:City>
+          <ows:AdministrativeArea>Nordrhein-Westfalen</ows:AdministrativeArea>
+          <ows:PostalCode>53177</ows:PostalCode>
+          <ows:Country>Deutschland</ows:Country>
+          <ows:ElectronicMailAddress>geobasis@bezreg-koeln.nrw.de</ows:ElectronicMailAddress>
+        </ows:Address>
+        <ows:OnlineResource xlink:type="simple" xlink:href="http://www.geobasis.nrw.de"/>
+        <ows:HoursOfService>Montag bis Donnerstag 8:30 - 15:00</ows:HoursOfService>
+        <ows:ContactInstructions/>
+      </ows:ContactInfo>
+      <ows:Role>Ansprechpartner</ows:Role>
+    </ows:ServiceContact>
+  </ows:ServiceProvider>
+  <ows:OperationsMetadata>
+    <ows:Operation name="GetCapabilities">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:type="simple" xlink:href="https://www.wcs.nrw.de/geobasis/wcs_nw_dgm?"/>
+          <ows:Post xlink:type="simple" xlink:href="https://www.wcs.nrw.de/geobasis/wcs_nw_dgm?">
+            <ows:Constraint name="PostEncoding">
+              <ows:AllowedValues>
+                <ows:Value>XML</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Post>
+        </ows:HTTP>
+      </ows:DCP>
+    </ows:Operation>
+    <ows:Operation name="DescribeCoverage">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:type="simple" xlink:href="https://www.wcs.nrw.de/geobasis/wcs_nw_dgm?"/>
+          <ows:Post xlink:type="simple" xlink:href="https://www.wcs.nrw.de/geobasis/wcs_nw_dgm?">
+            <ows:Constraint name="PostEncoding">
+              <ows:AllowedValues>
+                <ows:Value>XML</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Post>
+        </ows:HTTP>
+      </ows:DCP>
+    </ows:Operation>
+    <ows:Operation name="GetCoverage">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:type="simple" xlink:href="https://www.wcs.nrw.de/geobasis/wcs_nw_dgm?"/>
+          <ows:Post xlink:type="simple" xlink:href="https://www.wcs.nrw.de/geobasis/wcs_nw_dgm?">
+            <ows:Constraint name="PostEncoding">
+              <ows:AllowedValues>
+                <ows:Value>XML</ows:Value>
+              </ows:AllowedValues>
+            </ows:Constraint>
+          </ows:Post>
+        </ows:HTTP>
+      </ows:DCP>
+    </ows:Operation>
+				<!-- INSPIRE Erweiterung -->
+	<ows:ExtendedCapabilities>
+		<inspire_dls:ExtendedCapabilities>
+			<!-- Dienste Metadaten -->
+			<inspire_common:MetadataUrl>
+				<inspire_common:URL>https://apps.geoportal.nrw.de/soapServices/CSWStartup?Service=CSW&amp;Request=GetRecordById&amp;Version=2.0.2&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;elementSetName=full&amp;id=9d9ffbae-3f27-437a-92cd-5550af618690</inspire_common:URL>
+				<inspire_common:MediaType>application/vnd.iso.19139+xml</inspire_common:MediaType>
+			</inspire_common:MetadataUrl>
+			<!-- Sprachen -->
+			<inspire_common:SupportedLanguages>
+				<inspire_common:DefaultLanguage>
+					<inspire_common:Language>ger</inspire_common:Language>
+				</inspire_common:DefaultLanguage>
+			</inspire_common:SupportedLanguages>
+			<inspire_common:ResponseLanguage>
+				<inspire_common:Language>ger</inspire_common:Language>
+			</inspire_common:ResponseLanguage>
+			<!-- SpatialDatasetIdentifier -->
+			<inspire_dls:SpatialDataSetIdentifier>
+				<inspire_common:Code>https://registry.gdi-de.org/id/de.nw/DGM1</inspire_common:Code>
+			</inspire_dls:SpatialDataSetIdentifier>
+		</inspire_dls:ExtendedCapabilities>
+	</ows:ExtendedCapabilities>
+  </ows:OperationsMetadata>
+  <wcs:ServiceMetadata>
+    <wcs:formatSupported>image/tiff</wcs:formatSupported>
+    <wcs:formatSupported>image/png</wcs:formatSupported>
+    <wcs:formatSupported>image/jpeg</wcs:formatSupported>
+    <wcs:formatSupported>image/png; mode=8bit</wcs:formatSupported>
+    <wcs:Extension>
+      <int:InterpolationMetadata>
+        <int:InterpolationSupported>NEAREST</int:InterpolationSupported>
+        <int:InterpolationSupported>AVERAGE</int:InterpolationSupported>
+        <int:InterpolationSupported>BILINEAR</int:InterpolationSupported>
+      </int:InterpolationMetadata>
+      <crs:CrsMetadata>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3034</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3035</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3043</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3044</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3045</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3857</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/4258</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/4326</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/4647</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/5649</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/5650</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/5651</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/5652</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/5653</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/25831</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/25832</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/25833</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/31466</crs:crsSupported>
+        <crs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/31467</crs:crsSupported>
+      </crs:CrsMetadata>
+    </wcs:Extension>
+  </wcs:ServiceMetadata>
+  <wcs:Contents>
+    <wcs:CoverageSummary>
+      <wcs:CoverageId>nw_dgm</wcs:CoverageId>
+      <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
+      <ows:Metadata xlink:type="simple" xlink:href="https://apps.geoportal.nrw.de/soapServices/CSWStartup?Service=CSW&amp;Request=GetRecordById&amp;Version=2.0.2&amp;outputSchema=http://www.isotc211.org/2005/gmd&amp;elementSetName=full&amp;id=0c6796e5-9eca-4ae6-8b32-1fcc5ae5c481" about="TC211" xlink:role="application/xml"/>
+    </wcs:CoverageSummary>
+  </wcs:Contents>
+</wcs:Capabilities>

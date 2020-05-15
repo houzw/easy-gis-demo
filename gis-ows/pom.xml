@@ -36,6 +36,10 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-wms</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.geotools/gt-wmts -->
         <dependency>
             <groupId>org.geotools</groupId>
@@ -56,7 +60,10 @@
             <groupId>org.geotools</groupId>
             <artifactId>gt-cql</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.geotools.xsd</groupId>
+            <artifactId>gt-xsd-wcs</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
@@ -66,18 +73,41 @@
             <artifactId>httpasyncclient</artifactId>
             <version>4.1.3</version>
         </dependency>
+        <!--可使用MapServer自带的mapscript.jar-->
         <!-- https://mvnrepository.com/artifact/edu.umn.gis/mapscript -->
         <!--MapServer mapscript-->
         <!-- released at 2013. located at 52north repository (http://52north.org/maven/repo/releases/)-->
-        <dependency>
+       <!-- <dependency>
             <groupId>edu.umn.gis</groupId>
             <artifactId>mapscript</artifactId>
             <version>6.0.3</version>
+        </dependency>-->
+        <!--  nexus     -->
+       <!-- <dependency>
+            <groupId>edu.umn.gis</groupId>
+            <artifactId>mapscript</artifactId>
+            <classifier>ms4w</classifier>
+            <version>7.0.7</version>
+        </dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.github.pcmehlitz/worldwind-pcm &ndash;&gt;
+        <dependency>
+            <groupId>com.github.pcmehlitz</groupId>
+            <artifactId>worldwind-pcm</artifactId>
+            <version>2.1.0.198</version>
         </dependency>
-
+        -->
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-wps</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.geotools</groupId>
             <artifactId>gt-wfs-ng</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.8.4</version>
         </dependency>
     </dependencies>
 

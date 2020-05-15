@@ -3,7 +3,7 @@ package org.egc.gis.ows.test;
 import org.apache.commons.io.FileUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -58,7 +58,8 @@ public class RestTest {
     public void test() throws IOException, URISyntaxException {
         long start = System.currentTimeMillis();
         Map connParameter = new HashMap();
-        String url = "http://opentopo.sdsc.edu/otr/";
+//        String url = "http://ot-data1.sdsc.edu:9090/otr/getdem";
+        String url = "http://opentopo.sdsc.edu/otr/getdem";
         URIBuilder uriBuilder = new URIBuilder(url);
 
 //        http://opentopo.sdsc.edu/otr/getdem?demtype=SRTMGL3&west=-120.168457&south=36.738884&east=-118.465576&north=38.091337&outputFormat=GTiff
@@ -67,9 +68,9 @@ public class RestTest {
         uriBuilder.addParameter(SOUTH, "36.738884");
         uriBuilder.addParameter(EAST, "-118.465576");
         uriBuilder.addParameter(NORTH, "38.091337");
-//        uriBuilder.addParameter(OUTPUT_FORMAT, GTiff);
-
-        HttpPost httpPost = new HttpPost(uriBuilder.build());
+        uriBuilder.addParameter(OUTPUT_FORMAT, GTiff);
+        System.out.println(uriBuilder.build());
+        HttpGet httpGet = new HttpGet(uriBuilder.build());
 
         CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
 
@@ -78,14 +79,14 @@ public class RestTest {
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout)
                 .setConnectTimeout(timeout).setConnectionRequestTimeout(10000)
                 .build();
-
-        httpPost.setConfig(requestConfig);
-
-        CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpPost);
-
-        // 文本类型的返回
+//
+        httpGet.setConfig(requestConfig);
+//
+        CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
+//
+//         文本类型的返回
         byte[] bytes = EntityUtils.toByteArray(httpResponse.getEntity());
-        FileUtils.writeByteArrayToFile(new File(""), bytes);
+        FileUtils.writeByteArrayToFile(new File("H:\\gisdemo\\restdem2.tif"), bytes);
 
         long time = System.currentTimeMillis() - start;
         System.out.println(time);

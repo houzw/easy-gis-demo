@@ -6,12 +6,12 @@ import org.geotools.coverage.grid.GridCoverage2D;
 import org.geotools.coverage.grid.io.AbstractGridFormat;
 import org.geotools.coverage.grid.io.GridCoverage2DReader;
 import org.geotools.coverage.grid.io.OverviewPolicy;
+import org.geotools.coverage.util.CoverageUtilities;
 import org.geotools.gce.geotiff.GeoTiffReader;
 import org.geotools.geometry.Envelope2D;
 import org.geotools.process.classify.ClassificationMethod;
 import org.geotools.process.raster.CoverageClassStats;
 import org.geotools.referencing.CRS;
-import org.geotools.resources.coverage.CoverageUtilities;
 import org.jaitools.numeric.Statistic;
 import org.opengis.parameter.GeneralParameterValue;
 import org.opengis.parameter.ParameterValue;
@@ -56,8 +56,8 @@ public class GeoTiffServiceImpl implements GeoTiffService {
         //Setting read type: use JAI ImageRead (true) or ImageReaders read methods (false)
         ParameterValue<Boolean> useJaiRead = AbstractGridFormat.USE_JAI_IMAGEREAD.createValue();
         useJaiRead.setValue(true);
-
-        GridCoverage2D coverage = reader.read(new GeneralParameterValue[]{policy, gridSize, useJaiRead});
+        GeneralParameterValue[] params = {policy, gridSize, useJaiRead};
+        GridCoverage2D coverage = reader.read(params);
         return coverage;
     }
 

@@ -2,7 +2,7 @@ package org.egc.gis.gdal.vector.create;
 
 import org.apache.commons.lang3.StringUtils;
 import org.egc.gis.commons.Consts;
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.gdal.gdal.gdal;
 import org.gdal.ogr.*;
 import org.gdal.osr.SpatialReference;
@@ -42,7 +42,7 @@ public class CreateShapefile {
 
 
         // Create the output shapefile
-        Driver driver = ogr.GetDriverByName(GdalDriversEnum.ESRI_Shapefile.getName());
+        Driver driver = ogr.GetDriverByName(GDALDriversEnum.ESRI_Shapefile.getName());
         if (new File(shp).exists()) {
             driver.DeleteDataSource(shp);
         }

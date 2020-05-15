@@ -32,6 +32,14 @@
             <groupId>net.postgis</groupId>
             <artifactId>postgis-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-geojson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-shapefile</artifactId>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.geotools</groupId>-->
             <!--<artifactId>gt-epsg-hsql</artifactId>-->

@@ -5,7 +5,7 @@ import com.google.common.base.Strings;
 import org.apache.commons.io.FilenameUtils;
 import org.egc.commons.gis.VectorUtils;
 import org.egc.gis.commons.Consts;
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.egc.gis.commons.VectorMetadata;
 import org.gdal.gdal.gdal;
 import org.gdal.ogr.*;
@@ -117,7 +117,7 @@ public class ShapefileTest {
         double[] pointCoord = {-124.4577, 48.0135};
         String fieldName = "test", fieldValue = "test", outSHPfn = "H:\\gisdemo\\out\\test.shp";
         // Create the output shapefile
-        Driver driver = ogr.GetDriverByName(GdalDriversEnum.ESRI_Shapefile.getName());
+        Driver driver = ogr.GetDriverByName(GDALDriversEnum.ESRI_Shapefile.getName());
         if (new File(outSHPfn).exists()) {
             driver.DeleteDataSource(outSHPfn);
         }

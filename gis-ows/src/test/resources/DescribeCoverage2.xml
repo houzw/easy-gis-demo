@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wcs:CoverageDescriptions xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0"
+    xmlns:ows="http://www.opengis.net/ows/2.0"
+    xmlns:rasdaman="http://www.rasdaman.org"
+    xmlns:swe="http://www.opengis.net/swe/2.0"
+    xmlns:wcs="http://www.opengis.net/wcs/2.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsDescribeCoverage.xsd">
+    <wcs:CoverageDescription gml:id="MOSAIC_TEST">
+        <gml:boundedBy>
+            <gml:Envelope axisLabels="Y X" srsDimension="2"
+                srsName="http://10.8.244.147:8080/def/crs/EPSG/0/3035" uomLabels="metre metre">
+                <gml:lowerCorner>2137248.24574 3843270.76798</gml:lowerCorner>
+                <gml:upperCorner>2863828.24574 4854640.76798</gml:upperCorner>
+            </gml:Envelope>
+        </gml:boundedBy>
+        <wcs:CoverageId>MOSAIC_TEST</wcs:CoverageId>
+        <gml:coverageFunction>
+            <gml:GridFunction>
+                <gml:sequenceRule axisOrder="+1 +2">Linear</gml:sequenceRule>
+                <gml:startPoint>-1177 -4989</gml:startPoint>
+            </gml:GridFunction>
+        </gml:coverageFunction>
+        <gmlcov:metadata>
+            <gmlcov:Extension>
+                <rasdaman:covMetadata>
+                    <Creator>Eurac Research - Institute for Earth Observation</Creator>
+                    <Project>Sentinel Alpine Observatory</Project>
+                    <Title>Sentinel 2 Alpine Mosaic</Title>
+                </rasdaman:covMetadata>
+            </gmlcov:Extension>
+        </gmlcov:metadata>
+        <gml:domainSet>
+            <gml:RectifiedGrid dimension="2" gml:id="MOSAIC_TEST-grid">
+                <gml:limits>
+                    <gml:GridEnvelope>
+                        <gml:low>-1177 -4989</gml:low>
+                        <gml:high>71480 66286</gml:high>
+                    </gml:GridEnvelope>
+                </gml:limits>
+                <gml:axisLabels>Y X</gml:axisLabels>
+                <gml:origin>
+                    <gml:Point gml:id="MOSAIC_TEST-point" srsName="http://10.8.244.147:8080/def/crs/EPSG/0/3035">
+                        <gml:pos>2863823.24574 3843275.76798</gml:pos>
+                    </gml:Point>
+                </gml:origin>
+                <gml:offsetVector srsName="http://10.8.244.147:8080/def/crs/EPSG/0/3035">-10 0</gml:offsetVector>
+                <gml:offsetVector srsName="http://10.8.244.147:8080/def/crs/EPSG/0/3035">0 10</gml:offsetVector>
+            </gml:RectifiedGrid>
+        </gml:domainSet>
+        <gmlcov:rangeType>
+            <swe:DataRecord>
+                <swe:field name="Red">
+                    <swe:Quantity definition="http://www.opengis.net/def/dataType/OGC/0/unsignedShort">
+                        <swe:label>Red</swe:label>
+                        <swe:description/>
+                        <swe:uom code="10^0"/>
+                        <swe:constraint/>
+                    </swe:Quantity>
+                </swe:field>
+                <swe:field name="Green">
+                    <swe:Quantity definition="http://www.opengis.net/def/dataType/OGC/0/unsignedShort">
+                        <swe:label>Green</swe:label>
+                        <swe:description/>
+                        <swe:uom code="10^0"/>
+                        <swe:constraint/>
+                    </swe:Quantity>
+                </swe:field>
+                <swe:field name="Blue">
+                    <swe:Quantity definition="http://www.opengis.net/def/dataType/OGC/0/unsignedShort">
+                        <swe:label>Blue</swe:label>
+                        <swe:description/>
+                        <swe:uom code="10^0"/>
+                        <swe:constraint/>
+                    </swe:Quantity>
+                </swe:field>
+            </swe:DataRecord>
+        </gmlcov:rangeType>
+        <wcs:ServiceParameters>
+            <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
+            <wcs:nativeFormat>application/octet-stream</wcs:nativeFormat>
+        </wcs:ServiceParameters>
+    </wcs:CoverageDescription>
+</wcs:CoverageDescriptions>

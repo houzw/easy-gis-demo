@@ -37,10 +37,10 @@ public class WFSTest {
 
 //        String baseurl = "https://SDMDataAccess.sc.egov.usda.gov/Spatial/SDMWGS84Geographic.wfs";
         String baseurl = "http://geoserv.weichand.de:8080/geoserver/wfs";
-
+        WFSClient client = new WFSClient();
         try {
             //1, connection
-            WFSDataStore dataStore = WFSClient.createDataStore(baseurl);
+            WFSDataStore dataStore = client.createDataStore(baseurl);
             //2, discovery
             String typeNames[] = dataStore.getTypeNames();
             String typeName = typeNames[0];

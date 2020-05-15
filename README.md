@@ -1,4 +1,4 @@
-# Easy-GIS
+# Easy-GIS demos
 
 - easy-to-use
 - easy-to-learn
@@ -13,4 +13,8 @@
 - 52 north wps
 
 ---
-Just For Test
+**Just For Test, unstable**
+
+---
+
+https://github.com/houzw/easy-gis 

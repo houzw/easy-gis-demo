@@ -1,7 +1,7 @@
 package org.egc.gis.gdal.raster.format;
 
 import lombok.extern.slf4j.Slf4j;
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.egc.gis.commons.StatusCode;
 import org.gdal.gdal.Dataset;
 import org.gdal.gdal.Driver;
@@ -54,7 +54,7 @@ public class RasterConversion {
     public static StatusCode raster2Geotiff(String fromFile, String toFile, Integer targetEpsg) {
         gdal.AllRegister();
         Dataset src = gdal.Open(fromFile, gdalconst.GA_ReadOnly);
-        Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());
+        Driver driver = gdal.GetDriverByName(GDALDriversEnum.GTiff.name());
         Dataset out_ds = driver.CreateCopy(toFile, src);
         SpatialReference srs = new SpatialReference();
         if (targetEpsg != null) {

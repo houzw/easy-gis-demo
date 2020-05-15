@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wcs:Capabilities xmlns:wcs="http://www.opengis.net/wcs/2.0" xmlns:ows="http://www.opengis.net/ows/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlcov="http://www.opengis.net/gmlcov/1.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0.1" updateSequence="19065" xmlns:wcscrs="http://www.opengis.net/wcs/service-extension/crs/1.0" xmlns:int="http://www.opengis.net/WCS_service-extension_interpolation/1.0" xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0" xmlns:inspire_dls="http://inspire.ec.europa.eu/schemas/inspire_dls/1.0" xsi:schemaLocation=" http://www.opengis.net/wcs/2.0 http://schemas.opengis.net/wcs/2.0/wcsGetCapabilities.xsd http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd">
+    <ows:ServiceIdentification>
+        <ows:Title>EOC Elevation Coverage Service</ows:Title>
+        <ows:Abstract>This Web Coverage Service provides access to geospatial elevation coverage products within the Earth Observation Center (EOC).</ows:Abstract>
+        <ows:Keywords>
+            <ows:Keyword>DLR</ows:Keyword>
+            <ows:Keyword>EOC</ows:Keyword>
+        </ows:Keywords>
+        <ows:ServiceType>urn:ogc:service:wcs</ows:ServiceType>
+        <ows:ServiceTypeVersion>2.0.1</ows:ServiceTypeVersion>
+        <ows:ServiceTypeVersion>1.1.1</ows:ServiceTypeVersion>
+        <ows:ServiceTypeVersion>1.1.0</ows:ServiceTypeVersion>
+        <ows:Profile>http://www.opengis.net/spec/WCS/2.0/conf/core</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_protocol-binding_get-kvp/1.0.1</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_protocol-binding_post-xml/1.0</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_crs/1.0/conf/crs-gridded-coverage</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_geotiff-coverages/1.0/conf/geotiff-coverage</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/GMLCOV/1.0/conf/gml-coverage</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/GMLCOV/1.0/conf/special-format</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/GMLCOV/1.0/conf/multipart</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_scaling/1.0/conf/scaling</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_crs/1.0/conf/crs</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_interpolation/1.0/conf/interpolation</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_interpolation/1.0/conf/interpolation-per-axis</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_interpolation/1.0/conf/nearest-neighbor</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_interpolation/1.0/conf/linear</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_interpolation/1.0/conf/cubic</ows:Profile>
+        <ows:Profile>http://www.opengis.net/spec/WCS_service-extension_range-subsetting/1.0/conf/record-subsetting</ows:Profile>
+        <ows:Fees>NONE</ows:Fees>
+        <ows:AccessConstraints>NONE</ows:AccessConstraints>
+    </ows:ServiceIdentification>
+    <ows:ServiceProvider>
+        <ows:ProviderName>Earth Observation Center (EOC), DLR</ows:ProviderName>
+        <ows:ProviderSite xlink:href="http://geoservice.dlr.de/eoc/" />
+        <ows:ServiceContact>
+            <ows:IndividualName>Geoservice Manager</ows:IndividualName>
+            <ows:PositionName>Geospatial Service Manager</ows:PositionName>
+            <ows:ContactInfo>
+                <ows:Phone />
+                <ows:Address>
+                    <ows:DeliveryPoint>MÃ¼nchnerstraÃe 20</ows:DeliveryPoint>
+                    <ows:City>WeÃling</ows:City>
+                    <ows:AdministrativeArea>Bavaria</ows:AdministrativeArea>
+                    <ows:PostalCode>82234</ows:PostalCode>
+                    <ows:Country>Germany</ows:Country>
+                    <ows:ElectronicMailAddress>geoservice@dlr.de</ows:ElectronicMailAddress>
+                </ows:Address>
+                <ows:OnlineResource xlink:href="http://geoservice.dlr.de/eoc/" />
+            </ows:ContactInfo>
+        </ows:ServiceContact>
+    </ows:ServiceProvider>
+    <ows:OperationsMetadata>
+        <ows:Operation name="GetCapabilities">
+            <ows:DCP>
+                <ows:HTTP>
+                    <ows:Get xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?" />
+                </ows:HTTP>
+            </ows:DCP>
+            <ows:DCP>
+                <ows:HTTP>
+                    <ows:Post xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?" />
+                </ows:HTTP>
+            </ows:DCP>
+        </ows:Operation>
+        <ows:Operation name="DescribeCoverage">
+            <ows:DCP>
+                <ows:HTTP>
+                    <ows:Get xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?" />
+                </ows:HTTP>
+            </ows:DCP>
+            <ows:DCP>
+                <ows:HTTP>
+                    <ows:Post xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?" />
+                </ows:HTTP>
+            </ows:DCP>
+        </ows:Operation>
+        <ows:Operation name="GetCoverage">
+            <ows:DCP>
+                <ows:HTTP>
+                    <ows:Get xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?" />
+                </ows:HTTP>
+            </ows:DCP>
+            <ows:DCP>
+                <ows:HTTP>
+                    <ows:Post xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?" />
+                </ows:HTTP>
+            </ows:DCP>
+        </ows:Operation>
+        <ows:Constraint name="PostEncoding">
+            <ows:AllowedValues>
+                <ows:Value>XML</ows:Value>
+            </ows:AllowedValues>
+        </ows:Constraint>
+    </ows:OperationsMetadata>
+    <wcs:ServiceMetadata>
+        <wcs:formatSupported>application/gml+xml</wcs:formatSupported>
+        <wcs:formatSupported>application/pdf</wcs:formatSupported>
+        <wcs:formatSupported>application/x-gzip</wcs:formatSupported>
+        <wcs:formatSupported>application/x-netcdf</wcs:formatSupported>
+        <wcs:formatSupported>application/zip</wcs:formatSupported>
+        <wcs:formatSupported>image/jpeg</wcs:formatSupported>
+        <wcs:formatSupported>image/png</wcs:formatSupported>
+        <wcs:formatSupported>image/tiff</wcs:formatSupported>
+        <wcs:formatSupported>text/plain</wcs:formatSupported>
+        <wcs:Extension>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3857</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/4326</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/900913</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3044</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/3045</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/25832</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/25833</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/4258</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/31466</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/31467</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/31468</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/31469</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32601</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32602</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32603</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32604</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32605</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32606</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32607</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32608</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32609</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32610</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32611</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32612</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32613</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32614</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32615</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32616</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32617</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32618</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32619</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32620</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32621</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32622</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32623</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32624</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32625</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32626</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32627</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32628</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32629</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32630</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32631</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32632</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32633</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32634</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32635</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32636</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32637</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32638</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32639</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32640</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32641</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32642</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32643</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32644</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32645</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32646</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32647</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32648</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32649</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32650</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32651</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32652</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32653</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32654</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32655</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32656</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32657</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32658</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32659</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32660</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32661</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32701</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32702</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32703</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32704</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32705</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32706</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32707</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32708</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32709</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32710</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32711</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32712</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32713</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32714</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32715</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32716</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32717</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32718</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32719</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32720</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32721</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32722</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32723</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32724</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32725</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32726</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32727</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32728</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32729</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32730</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32731</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32732</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32733</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32734</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32735</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32736</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32737</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32738</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32739</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32740</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32741</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32742</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32743</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32744</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32745</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32746</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32747</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32748</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32749</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32750</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32751</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32752</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32753</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32754</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32755</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32756</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32757</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32758</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32759</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32760</wcscrs:crsSupported>
+            <wcscrs:crsSupported>http://www.opengis.net/def/crs/EPSG/0/32761</wcscrs:crsSupported>
+            <int:interpolationSupported>http://www.opengis.net/def/interpolation/OGC/1/nearest-neighbor</int:interpolationSupported>
+            <int:interpolationSupported>http://www.opengis.net/def/interpolation/OGC/1/linear</int:interpolationSupported>
+            <int:interpolationSupported>http://www.opengis.net/def/interpolation/OGC/1/cubic</int:interpolationSupported>
+        </wcs:Extension>
+    </wcs:ServiceMetadata>
+    <wcs:Contents>
+        <wcs:CoverageSummary>
+            <ows:Title>SRTM X-SAR Elevation Mosaic</ows:Title>
+            <ows:Abstract>Generated from ImageMosaic</ows:Abstract>
+            <ows:Keywords>
+                <ows:Keyword>WCS</ows:Keyword>
+                <ows:Keyword>ImageMosaic</ows:Keyword>
+                <ows:Keyword>dem</ows:Keyword>
+            </ows:Keywords>
+            <wcs:CoverageId>elevation__srtm_x-sar_dem_mosaic</wcs:CoverageId>
+            <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-179.0001388888889 -54.500138888888884</ows:LowerCorner>
+                <ows:UpperCorner>179.75013888888887 60.500138888888884</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/EPSG:4326">
+                <ows:LowerCorner>-179.0001388888889 -54.500138888888884</ows:LowerCorner>
+                <ows:UpperCorner>179.75013888888887 60.500138888888884</ows:UpperCorner>
+            </ows:BoundingBox>
+            <ows:Metadata xlink:type="simple" xlink:href="https://geoservice.dlr.de/catalogue/srv/api/records/c03846b9-b94b-4dc4-a989-ee58bf7afb5d/formatters/xml" />
+        </wcs:CoverageSummary>
+        <wcs:CoverageSummary>
+            <ows:Title>SRTM X-SAR Error Mosaic</ows:Title>
+            <ows:Abstract>Generated from ImageMosaic</ows:Abstract>
+            <ows:Keywords>
+                <ows:Keyword>hem</ows:Keyword>
+            </ows:Keywords>
+            <wcs:CoverageId>elevation__srtm_x-sar_hem_mosaic</wcs:CoverageId>
+            <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-179.0001388888889 -54.500138888888884</ows:LowerCorner>
+                <ows:UpperCorner>179.75013888888887 60.500138888888884</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/EPSG:4326">
+                <ows:LowerCorner>-179.0001388888889 -54.500138888888884</ows:LowerCorner>
+                <ows:UpperCorner>179.75013888888887 60.500138888888884</ows:UpperCorner>
+            </ows:BoundingBox>
+            <ows:Metadata xlink:type="simple" xlink:href="https://geoservice.dlr.de/catalogue/srv/api/records/6e136303-ff02-4ab4-b38a-db5ef64eea2c/formatters/xml" />
+        </wcs:CoverageSummary>
+        <wcs:CoverageSummary>
+            <ows:Title>SRTM X-SAR Hillshade Mosaic</ows:Title>
+            <ows:Abstract>Generated from ImageMosaic</ows:Abstract>
+            <ows:Keywords>
+                <ows:Keyword>hillshade</ows:Keyword>
+            </ows:Keywords>
+            <wcs:CoverageId>elevation__srtm_x-sar_hillshade_mosaic</wcs:CoverageId>
+            <wcs:CoverageSubtype>RectifiedGridCoverage</wcs:CoverageSubtype>
+            <ows:WGS84BoundingBox>
+                <ows:LowerCorner>-179.0001388888889 -54.500138888888884</ows:LowerCorner>
+                <ows:UpperCorner>179.75013888888887 60.500138888888884</ows:UpperCorner>
+            </ows:WGS84BoundingBox>
+            <ows:BoundingBox crs="http://www.opengis.net/def/crs/EPSG/0/EPSG:4326">
+                <ows:LowerCorner>-179.0001388888889 -54.500138888888884</ows:LowerCorner>
+                <ows:UpperCorner>179.75013888888887 60.500138888888884</ows:UpperCorner>
+            </ows:BoundingBox>
+            <ows:Metadata xlink:type="simple" xlink:href="https://geoservice.dlr.de/catalogue/srv/api/records/2a65b12a-7dab-4724-879f-e4eb198ee542/formatters/xml" />
+        </wcs:CoverageSummary>
+        <wcs:Extension />
+    </wcs:Contents>
+</wcs:Capabilities>

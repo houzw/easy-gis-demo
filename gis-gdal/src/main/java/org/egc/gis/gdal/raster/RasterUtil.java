@@ -2,8 +2,9 @@ package org.egc.gis.gdal.raster;
 
 import com.google.common.base.Strings;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FilenameUtils;
 import org.egc.commons.util.StringUtil;
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.egc.gis.commons.RasterMetadata;
 import org.egc.gis.commons.BoundingBox;
 import org.gdal.gdal.*;
@@ -128,10 +129,10 @@ public class RasterUtil {
         */
         metadata.setMinX(gt[0]);
         metadata.setMaxX(gt[0] + gt[1] * dataset.GetRasterXSize());
-        metadata.setCenterX(format(gt[0] + gt[1] * dataset.GetRasterXSize() / 2));
+        metadata.setCenterX(format(gt[0] + gt[1] * (dataset.GetRasterXSize() / 2)));
         metadata.setMaxY(gt[3]);
         metadata.setMinY(format(gt[3] + gt[5] * dataset.GetRasterYSize()));
-        metadata.setCenterY(format(gt[3] + gt[5] * dataset.GetRasterYSize() / 2));
+        metadata.setCenterY(format(gt[3] + gt[5] * (dataset.GetRasterYSize() / 2)));
         //gt[5]
         metadata.setPixelSize(format(gt[1]));
         metadata.setWidth(format(dataset.GetRasterXSize() * gt[1]));
@@ -169,9 +170,34 @@ public class RasterUtil {
 
         return "";
     }
+
+    /**
+     * GDAL 栅格格式转换
+     * @param in raster to be coverted
+     * @param out output filename, with file extension
+     * @throws IOException
+     */
+    public static void formatConvert(String in, String out) throws IOException {
+        gdal.AllRegister();
+        Dataset dataset = gdal.Open(in);
+
+        GDALDriversEnum driversEnum = GDALDriversEnum.lookupByExtension(FilenameUtils.getExtension(out));
+        Driver driver = gdal.GetDriverByName(driversEnum.name());
+        if (driver == null) {
+            throw new IOException("Output Format Not Supported");
+        }
+        Vector<String> vector = new Vector<String>();
+        vector.add("-of");
+        vector.add(driver.getShortName());
+        TranslateOptions options = new TranslateOptions(vector);
+        gdal.Translate(out, dataset, options);
+        dataset.delete();
+        gdal.GDALDestroyDriverManager();
+    }
+
     //https://joeyklee.github.io/broc-cli-geo/guide/XX_raster_cropping_and_clipping.html
     public static void clip(String srcFile, String dstFile, BoundingBox bounds, Double expand) {
-        Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());
+        Driver driver = gdal.GetDriverByName(GDALDriversEnum.GTiff.name());
         driver.Register();
         Dataset src = gdal.Open(srcFile);
         log.info("Running with " + gdal.VersionInfo());
@@ -180,7 +206,7 @@ public class RasterUtil {
         optionsVector.add("-a_nodata");
         optionsVector.add(NODATA);
         optionsVector.add("-of");
-        optionsVector.add(GdalDriversEnum.GTiff.name());
+        optionsVector.add(GDALDriversEnum.GTiff.name());
         optionsVector.add("-projwin");
         if (expand == null) {
             optionsVector.add(bounds.toString());
@@ -190,6 +216,7 @@ public class RasterUtil {
         TranslateOptions options = new TranslateOptions(optionsVector);
         gdal.Translate(dstFile, src, options);
     }
+
     //二值化,大于等于阈值的重新赋值为1，其他为0
     public static String binarization(float threshold, String tif) {
         return "";

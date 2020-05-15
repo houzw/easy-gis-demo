@@ -1,9 +1,11 @@
 package org.egc.gis.gdal.test;
 
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.egc.gis.commons.StatusCode;
+import org.egc.gis.gdal.raster.RasterUtil;
 import org.egc.gis.gdal.raster.format.RasterConversion;
 import org.gdal.gdal.Dataset;
+import org.gdal.gdal.InfoOptions;
 import org.gdal.gdal.gdal;
 import org.gdal.gdalconst.gdalconst;
 import org.gdal.ogr.DataSource;
@@ -12,6 +14,8 @@ import org.gdal.ogr.ogr;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Vector;
 
 /**
  * Description:
@@ -30,21 +34,42 @@ public class FormatConvert {
     String tif = "H:\\gisdemo\\in\\xcDEM.tif";
     String jpg = "H:\\gisdemo\\out\\xcDEM.jpg";
     File file = new File("src/test/resources/sourcedem");
+    String outputDir = "H:/gisdemo/out";
+    String inputDir = "H:/gisdemo/in";
+    String adf = inputDir + "/adf/hdr.adf";
     String path = file.getAbsolutePath();
+
     //adf2tiff
     @Test
     public void adf2tiff() {
-
-        StatusCode statusCode = RasterConversion.adf2GeoTIFF(path + "/adf/hdr.adf", 4326, path + "/dblbnd.tif");
+        StatusCode statusCode = RasterConversion.adf2GeoTIFF(adf, outputDir + "/adf.tif", 4326);
         System.out.println(statusCode);
+    }
+    @Test
+    public void format() throws IOException {
+       RasterUtil.formatConvert(adf, outputDir + "/adf.tif");
+    }
+    @Test
+    public void info() {
+        gdal.AllRegister();
+        Dataset open = gdal.Open(tif, gdalconst.GA_ReadOnly);
+        //https://gdal.org/programs/gdalinfo.html#gdalinfo
+        //注意，与Python版赋值方式不同
+        Vector<String> opVec = new Vector<String>();
+        opVec.add("-proj4");//reportProj4 = False in python
+        opVec.add("-stats");
+        InfoOptions options = new InfoOptions(opVec);
+        String s = gdal.GDALInfo(open, options);
+        System.out.println(s);
     }
 
     //asc2tiff
     @Test
     public void asc2tiff() {
-        StatusCode statusCode = RasterConversion.asc2GeoTIFF(path + "/asc/twi.asc", 4326, path + "/twi.tif");
+        StatusCode statusCode = RasterConversion.asc2GeoTIFF(path + "/asc/twi.asc", path + "/twi.tif", 4326);
         System.out.println(statusCode);
     }
+
     @Test
     public void toJpg() {
         gdal.AllRegister();
@@ -71,7 +96,7 @@ public class FormatConvert {
 
         // 打开文件
         DataSource ds = ogr.Open(shp, 0);
-        Driver dv = ogr.GetDriverByName(GdalDriversEnum.GeoJSON.name());
+        Driver dv = ogr.GetDriverByName(GDALDriversEnum.GeoJSON.name());
         if (dv == null) {
             System.out.println("打开驱动失败！");
             return;
@@ -94,7 +119,7 @@ public class FormatConvert {
 
         // 打开文件
         DataSource ds = ogr.Open(shp, 0);
-        Driver dv = ogr.GetDriverByName(GdalDriversEnum.KML.name());
+        Driver dv = ogr.GetDriverByName(GDALDriversEnum.KML.name());
         if (dv == null) {
             System.out.println("打开驱动失败！");
             return;

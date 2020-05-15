@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Capabilities xmlns="http://www.opengis.net/wcs/1.1"
+ xmlns:ows="http://www.opengis.net/ows/1.1"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xsi:schemaLocation="http://www.opengis.net/wcs/1.1 http://schemas.opengis.net/wcs/1.1/wcsGetCapabilities.xsd http://www.opengis.net/ows/1.1/ http://schemas.opengis.net/ows/1.1.0/owsAll.xsd" version="1.1.2">
+  <ows:ServiceIdentification>
+    <ows:Title>3DEPElevation</ows:Title>
+  <ows:ServiceType>WCS</ows:ServiceType>
+  <ows:ServiceTypeVersion>1.0.0</ows:ServiceTypeVersion>
+  <ows:ServiceTypeVersion>1.1.0</ows:ServiceTypeVersion>
+  <ows:ServiceTypeVersion>1.1.1</ows:ServiceTypeVersion>
+  <ows:ServiceTypeVersion>1.1.2</ows:ServiceTypeVersion>
+  <ows:Fees>NONE</ows:Fees>
+  <ows:AccessConstraints>None</ows:AccessConstraints>
+  </ows:ServiceIdentification>
+  <ows:ServiceProvider>
+    <ows:ProviderName></ows:ProviderName>
+    <ows:ServiceContact>
+      <ows:ContactInfo>
+        <ows:Phone>
+        </ows:Phone>
+        <ows:Address>
+        </ows:Address>
+        <ows:OnlineResource xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+      </ows:ContactInfo>
+    </ows:ServiceContact>
+  </ows:ServiceProvider>
+  <ows:OperationsMetadata>
+    <ows:Operation name="GetCapabilities">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+          <ows:Post xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="service">
+        <ows:AllowedValues>
+          <ows:Value>WCS</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="AcceptVersions">
+        <ows:AllowedValues>
+          <ows:Value>1.0.0</ows:Value>
+          <ows:Value>1.1.0</ows:Value>
+          <ows:Value>1.1.1</ows:Value>
+          <ows:Value>1.1.2</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="DescribeCoverage">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+          <ows:Post xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="service">
+        <ows:AllowedValues>
+          <ows:Value>WCS</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="version">
+        <ows:AllowedValues>
+          <ows:Value>1.0.0</ows:Value>
+          <ows:Value>1.1.0</ows:Value>
+          <ows:Value>1.1.1</ows:Value>
+          <ows:Value>1.1.2</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="Identifier">
+        <ows:AllowedValues>
+          <ows:Value>1</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+    <ows:Operation name="GetCoverage">
+      <ows:DCP>
+        <ows:HTTP>
+          <ows:Get xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+          <ows:Post xlink:href="https://elevation.nationalmap.gov:443/arcgis/services/3DEPElevation/ImageServer/WCSServer"/>
+        </ows:HTTP>
+      </ows:DCP>
+      <ows:Parameter name="service">
+        <ows:AllowedValues>
+          <ows:Value>WCS</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="version">
+        <ows:AllowedValues>
+          <ows:Value>1.0.0</ows:Value>
+          <ows:Value>1.1.0</ows:Value>
+          <ows:Value>1.1.1</ows:Value>
+          <ows:Value>1.1.2</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="Identifier">
+        <ows:AllowedValues>
+          <ows:Value>1</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="InterpolationType">
+        <ows:AllowedValues>
+          <ows:Value>nearest</ows:Value>
+          <ows:Value>linear</ows:Value>
+          <ows:Value>cubic</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="format">
+        <ows:AllowedValues>
+          <ows:Value>image/GeoTIFF</ows:Value>
+          <ows:Value>image/NITF</ows:Value>
+          <ows:Value>image/JPEG</ows:Value>
+          <ows:Value>image/PNG</ows:Value>
+          <ows:Value>image/JPEG2000</ows:Value>
+          <ows:Value>image/HDF</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+      <ows:Parameter name="store">
+        <ows:AllowedValues>
+          <ows:Value>False</ows:Value>
+          <ows:Value>True</ows:Value>
+        </ows:AllowedValues>
+      </ows:Parameter>
+    </ows:Operation>
+  </ows:OperationsMetadata>
+  <Contents>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation</ows:Title>
+      <ows:Abstract>DEP3Elevation</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Hillshade Gray</ows:Title>
+      <ows:Abstract>Hillshade Gray</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Hillshade Gray</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Aspect Degrees</ows:Title>
+      <ows:Abstract>Aspect Degrees</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Aspect Degrees</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Aspect Map</ows:Title>
+      <ows:Abstract>Aspect Map</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Aspect Map</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_GreyHillshade_elevationFill</ows:Title>
+      <ows:Abstract>GreyHillshade_elevationFill</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_GreyHillshade_elevationFill</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Hillshade Multidirectional</ows:Title>
+      <ows:Abstract>Hillshade Multidirectional</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Hillshade Multidirectional</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Slope Map</ows:Title>
+      <ows:Abstract>Slope Map</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Slope Map</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Slope Degrees</ows:Title>
+      <ows:Abstract>Slope Degrees</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Slope Degrees</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Hillshade Elevation Tinted</ows:Title>
+      <ows:Abstract>Hillshade Elevation Tinted</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Hillshade Elevation Tinted</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Height Ellipsoidal</ows:Title>
+      <ows:Abstract>Height Ellipsoidal</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Height Ellipsoidal</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Contour 25</ows:Title>
+      <ows:Abstract>Contour 25</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Contour 25</Identifier>
+    </CoverageSummary>
+    <CoverageSummary>
+      <ows:Title>DEP3Elevation_Contour Smoothed 25</ows:Title>
+      <ows:Abstract>Contour Smoothed 25</ows:Abstract>
+      <ows:WGS84BoundingBox>
+        <ows:LowerCorner>-179.99998854118687 -15.001663244822502</ows:LowerCorner>
+        <ows:UpperCorner>179.99999272129153 84.001678572132718</ows:UpperCorner>
+      </ows:WGS84BoundingBox>
+      <Identifier>DEP3Elevation_Contour Smoothed 25</Identifier>
+    </CoverageSummary>
+    <SupportedCRS>urn:ogc:def:crs:EPSG::4326</SupportedCRS>
+    <SupportedCRS>urn:ogc:def:crs:EPSG::3857</SupportedCRS>
+    <SupportedFormat>image/GeoTIFF</SupportedFormat>
+    <SupportedFormat>image/NITF</SupportedFormat>
+    <SupportedFormat>image/JPEG</SupportedFormat>
+    <SupportedFormat>image/PNG</SupportedFormat>
+    <SupportedFormat>image/JPEG2000</SupportedFormat>
+    <SupportedFormat>image/HDF</SupportedFormat>
+  </Contents>
+</Capabilities>

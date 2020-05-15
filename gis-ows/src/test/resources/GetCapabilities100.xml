@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wcs:WCS_Capabilities version="1.0.0" xmlns:wcs="http://www.opengis.net/wcs" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:gml="http://www.opengis.net/gml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xsi:schemaLocation="http://www.opengis.net/wcs https://geoservice.dlr.de/eoc/schemas/wcs/1.0.0/wcsCapabilities.xsd" updateSequence="19065">
+    <wcs:Service>
+        <wcs:metadataLink about="http://www.dlr.de/eoc" xlink:type="simple" metadataType="other"/>
+        <wcs:description>This Web Coverage Service provides access to geospatial elevation coverage products within the Earth Observation Center (EOC).</wcs:description>
+        <wcs:name>WCS</wcs:name>
+        <wcs:label>EOC Elevation Coverage Service</wcs:label>
+        <wcs:keywords>
+            <wcs:keyword>DLR</wcs:keyword>
+            <wcs:keyword>EOC</wcs:keyword>
+        </wcs:keywords>
+        <wcs:responsibleParty>
+            <wcs:individualName>Geoservice Manager</wcs:individualName>
+            <wcs:organisationName>Earth Observation Center (EOC), DLR</wcs:organisationName>
+            <wcs:positionName>Geospatial Service Manager</wcs:positionName>
+            <wcs:contactInfo>
+                <wcs:phone/>
+                <wcs:address>
+                    <wcs:deliveryPoint>Postal Münchnerstraße 20</wcs:deliveryPoint>
+                    <wcs:city>Weßling</wcs:city>
+                    <wcs:administrativeArea>Bavaria</wcs:administrativeArea>
+                    <wcs:postalCode>82234</wcs:postalCode>
+                    <wcs:country>Germany</wcs:country>
+                    <wcs:electronicMailAddress>geoservice@dlr.de</wcs:electronicMailAddress>
+                </wcs:address>
+            </wcs:contactInfo>
+        </wcs:responsibleParty>
+        <wcs:fees>NONE</wcs:fees>
+        <wcs:accessConstraints>NONE</wcs:accessConstraints>
+    </wcs:Service>
+    <wcs:Capability>
+        <wcs:Request>
+            <wcs:GetCapabilities>
+                <wcs:DCPType>
+                    <wcs:HTTP>
+                        <wcs:Get>
+                            <wcs:OnlineResource xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?"/>
+                        </wcs:Get>
+                    </wcs:HTTP>
+                </wcs:DCPType>
+                <wcs:DCPType>
+                    <wcs:HTTP>
+                        <wcs:Post>
+                            <wcs:OnlineResource xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?"/>
+                        </wcs:Post>
+                    </wcs:HTTP>
+                </wcs:DCPType>
+            </wcs:GetCapabilities>
+            <wcs:DescribeCoverage>
+                <wcs:DCPType>
+                    <wcs:HTTP>
+                        <wcs:Get>
+                            <wcs:OnlineResource xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?"/>
+                        </wcs:Get>
+                    </wcs:HTTP>
+                </wcs:DCPType>
+                <wcs:DCPType>
+                    <wcs:HTTP>
+                        <wcs:Post>
+                            <wcs:OnlineResource xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?"/>
+                        </wcs:Post>
+                    </wcs:HTTP>
+                </wcs:DCPType>
+            </wcs:DescribeCoverage>
+            <wcs:GetCoverage>
+                <wcs:DCPType>
+                    <wcs:HTTP>
+                        <wcs:Get>
+                            <wcs:OnlineResource xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?"/>
+                        </wcs:Get>
+                    </wcs:HTTP>
+                </wcs:DCPType>
+                <wcs:DCPType>
+                    <wcs:HTTP>
+                        <wcs:Post>
+                            <wcs:OnlineResource xlink:href="https://geoservice.dlr.de/eoc/elevation/wcs?"/>
+                        </wcs:Post>
+                    </wcs:HTTP>
+                </wcs:DCPType>
+            </wcs:GetCoverage>
+        </wcs:Request>
+        <wcs:Exception>
+            <wcs:Format>application/vnd.ogc.se_xml</wcs:Format>
+        </wcs:Exception>
+    </wcs:Capability>
+    <wcs:ContentMetadata>
+        <wcs:CoverageOfferingBrief>
+            <wcs:metadataLink xlink:type="simple" metadataType="19139" xlink:href="https://geoservice.dlr.de/catalogue/srv/api/records/c03846b9-b94b-4dc4-a989-ee58bf7afb5d/formatters/xml"/>
+            <wcs:description>Generated from ImageMosaic</wcs:description>
+            <wcs:name>elevation:srtm_x-sar_dem_mosaic</wcs:name>
+            <wcs:label>SRTM X-SAR Elevation Mosaic</wcs:label>
+            <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
+                <gml:pos>-179.0001388888889 -54.500138888888884</gml:pos>
+                <gml:pos>179.75013888888887 60.500138888888884</gml:pos>
+            </wcs:lonLatEnvelope>
+            <wcs:keywords>
+                <wcs:keyword>WCS</wcs:keyword>
+                <wcs:keyword>ImageMosaic</wcs:keyword>
+                <wcs:keyword>dem</wcs:keyword>
+            </wcs:keywords>
+        </wcs:CoverageOfferingBrief>
+        <wcs:CoverageOfferingBrief>
+            <wcs:metadataLink xlink:type="simple" metadataType="19139" xlink:href="https://geoservice.dlr.de/catalogue/srv/api/records/6e136303-ff02-4ab4-b38a-db5ef64eea2c/formatters/xml"/>
+            <wcs:description>Generated from ImageMosaic</wcs:description>
+            <wcs:name>elevation:srtm_x-sar_hem_mosaic</wcs:name>
+            <wcs:label>SRTM X-SAR Error Mosaic</wcs:label>
+            <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
+                <gml:pos>-179.0001388888889 -54.500138888888884</gml:pos>
+                <gml:pos>179.75013888888887 60.500138888888884</gml:pos>
+            </wcs:lonLatEnvelope>
+            <wcs:keywords>
+                <wcs:keyword>hem</wcs:keyword>
+            </wcs:keywords>
+        </wcs:CoverageOfferingBrief>
+        <wcs:CoverageOfferingBrief>
+            <wcs:metadataLink xlink:type="simple" metadataType="19139" xlink:href="https://geoservice.dlr.de/catalogue/srv/api/records/2a65b12a-7dab-4724-879f-e4eb198ee542/formatters/xml"/>
+            <wcs:description>Generated from ImageMosaic</wcs:description>
+            <wcs:name>elevation:srtm_x-sar_hillshade_mosaic</wcs:name>
+            <wcs:label>SRTM X-SAR Hillshade Mosaic</wcs:label>
+            <wcs:lonLatEnvelope srsName="urn:ogc:def:crs:OGC:1.3:CRS84">
+                <gml:pos>-179.0001388888889 -54.500138888888884</gml:pos>
+                <gml:pos>179.75013888888887 60.500138888888884</gml:pos>
+            </wcs:lonLatEnvelope>
+            <wcs:keywords>
+                <wcs:keyword>hillshade</wcs:keyword>
+            </wcs:keywords>
+        </wcs:CoverageOfferingBrief>
+    </wcs:ContentMetadata>
+</wcs:WCS_Capabilities>

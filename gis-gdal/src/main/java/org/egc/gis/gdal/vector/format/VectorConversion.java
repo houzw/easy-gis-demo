@@ -2,7 +2,7 @@ package org.egc.gis.gdal.vector.format;
 
 import lombok.extern.slf4j.Slf4j;
 import org.egc.gis.commons.Consts;
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.egc.gis.commons.StatusCode;
 import org.gdal.gdal.gdal;
 import org.gdal.ogr.DataSource;
@@ -23,14 +23,14 @@ public class VectorConversion {
 
 
     public StatusCode shp2GeoJSON(String shp, String json) {
-        return shpConvert(GdalDriversEnum.GeoJSON, shp, json);
+        return shpConvert(GDALDriversEnum.GeoJSON, shp, json);
     }
 
     public StatusCode shp2KML(String shp, String kml) {
-        return shpConvert(GdalDriversEnum.KML, shp, kml);
+        return shpConvert(GDALDriversEnum.KML, shp, kml);
     }
 
-    private StatusCode shpConvert(GdalDriversEnum type, String fromFile, String toFile) {
+    private StatusCode shpConvert(GDALDriversEnum type, String fromFile, String toFile) {
         // 注册所有的驱动
         ogr.RegisterAll();
         // 为了支持中文路径，请添加下面这句代码

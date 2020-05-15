@@ -1,7 +1,7 @@
 package org.egc.gis.gdal.proj;
 
 import org.egc.gis.commons.Consts;
-import org.egc.gis.commons.GdalDriversEnum;
+import org.egc.gis.commons.GDALDriversEnum;
 import org.gdal.gdal.Dataset;
 import org.gdal.gdal.Driver;
 import org.gdal.gdal.gdal;
@@ -92,12 +92,12 @@ public class Reprojection {
     }
 
     public int reproject(String srcFile, String dstFile, SpatialReference tSRS) {
-        Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());
+        Driver driver = gdal.GetDriverByName(GDALDriversEnum.GTiff.name());
         driver.Register();
         Dataset src = gdal.Open(srcFile);
         String dstWKT = tSRS.ExportToWkt();
         //create new raster
-        Dataset dst = gdal.GetDriverByName(GdalDriversEnum.GTiff.name()).CreateCopy(dstFile, src);
+        Dataset dst = gdal.GetDriverByName(GDALDriversEnum.GTiff.name()).CreateCopy(dstFile, src);
         dst.SetGeoTransform(src.GetGeoTransform());
         //perform re-projection
         return gdal.ReprojectImage(src, dst, src.GetProjection(), dstWKT);
@@ -107,7 +107,7 @@ public class Reprojection {
     //https://blog.csdn.net/m0_37821031/article/details/79111051
     public int reproject2Utm(String srcFile, String dstFile) {
 
-        Driver driver = gdal.GetDriverByName(GdalDriversEnum.GTiff.name());
+        Driver driver = gdal.GetDriverByName(GDALDriversEnum.GTiff.name());
         driver.Register();
         Dataset src = gdal.Open(srcFile);
         SpatialReference sSRS = new SpatialReference(src.GetProjectionRef());
@@ -130,7 +130,7 @@ public class Reprojection {
 
         String dstWKT = tSRS.ExportToWkt();
         //create new raster
-        Dataset dst = gdal.GetDriverByName(GdalDriversEnum.GTiff.name()).CreateCopy(dstFile, src);
+        Dataset dst = gdal.GetDriverByName(GDALDriversEnum.GTiff.name()).CreateCopy(dstFile, src);
         dst.SetGeoTransform(gt);
         //perform re-projection
         return gdal.ReprojectImage(src, dst, src.GetProjection(), dstWKT);

@@ -6,7 +6,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -122,20 +122,19 @@ public class OpenTopo {
     public void connect(URI uri, String filename) throws IOException {
         long start = System.currentTimeMillis();
 
-        HttpPost httpPost = new HttpPost(uri);
+        HttpGet httpGet = new HttpGet(uri);
 
         CloseableHttpClient closeableHttpClient = HttpClients.custom().setConnectionManager(HttpUtils.getPoolingConnMgr()).build();
 //        CloseableHttpClient closeableHttpClient = HttpClients.createDefault();
 
-        // 设置超时时间 ms
         int timeout = 10 * 60 * 1000;
         RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(timeout)
                 .setConnectTimeout(timeout).setConnectionRequestTimeout(10000)
                 .build();
 
-        httpPost.setConfig(requestConfig);
+        httpGet.setConfig(requestConfig);
 
-        CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpPost);
+        CloseableHttpResponse httpResponse = closeableHttpClient.execute(httpGet);
         byte[] bytes = EntityUtils.toByteArray(httpResponse.getEntity());
         FileUtils.writeByteArrayToFile(new File(filename), bytes);
 
